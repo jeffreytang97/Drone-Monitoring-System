@@ -1,0 +1,9 @@
+{
+  "name": "drone_monitoring_website",
+  "version": "0.0.0",
+  "description": "Drone_Monitoring_Website",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  }
+}
