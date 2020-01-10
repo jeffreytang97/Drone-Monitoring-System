@@ -7,7 +7,7 @@ const MaterialComponents = [
 
 @NgModule({
   imports: [MaterialComponents],
-  exports: [MaterialComponents],
+  exports: [MaterialComponents, InfoScreenComponent],
   declarations: [InfoScreenComponent]
 })
 export class InfoScreenModule { }

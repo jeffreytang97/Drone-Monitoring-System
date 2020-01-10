@@ -7,7 +7,7 @@ const MaterialComponents = [
 
 @NgModule({
   imports: [MaterialComponents],
-  exports: [MaterialComponents],
+  exports: [MaterialComponents, ZoneSearchComponent],
   declarations: [ZoneSearchComponent]
 })
 export class ZoneSearchModule { }

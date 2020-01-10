@@ -7,7 +7,7 @@ const MaterialComponents = [
 
 @NgModule({
   imports: [MaterialComponents],
-  exports: [MaterialComponents],
+  exports: [MaterialComponents, MapComponent],
   declarations: [MapComponent]
 })
 export class MapModule { }
