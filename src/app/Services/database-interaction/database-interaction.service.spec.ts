@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { DatabaseInteractionService } from './database-interaction.service';
+import {DatabaseInteractionService} from './database-interaction.service';
 
 describe('DatabaseInteractionService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { InfoScreenComponent } from './info-screen.component';
+import {InfoScreenComponent} from './info-screen.component';
 
 describe('InfoScreenComponent', () => {
   let component: InfoScreenComponent;
@@ -8,9 +8,9 @@ describe('InfoScreenComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InfoScreenComponent ]
+      declarations: [InfoScreenComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

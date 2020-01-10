@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {RestrictedZone} from "../../models/restricted-zone";
 
 @Injectable({
@@ -6,11 +6,12 @@ import {RestrictedZone} from "../../models/restricted-zone";
 })
 export class RestricedZoneService {
 
-  private restrictedZones : RestrictedZone[] = [];
+  private restrictedZones: RestrictedZone[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   getRestrictedZones() {
-  return this.restrictedZones;
+    return this.restrictedZones;
   }
 }

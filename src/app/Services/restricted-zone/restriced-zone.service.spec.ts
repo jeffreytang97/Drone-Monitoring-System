@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { RestricedZoneService } from './restriced-zone.service';
+import {RestricedZoneService} from './restriced-zone.service';
 
 describe('RestricedZoneService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

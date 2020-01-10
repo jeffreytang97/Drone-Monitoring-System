@@ -3,6 +3,6 @@ import * as firebase from 'firebase';
 
 export class RestrictedZone {
 
-  zoneEdged = GeoPoint[0];
+  private zoneEdged = GeoPoint[0];
 
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Drone} from "../../models/drone";
 
 @Injectable({
@@ -8,7 +8,8 @@ export class DroneService {
 
   private drones: Drone[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   getDrones() {
     return this.drones;
