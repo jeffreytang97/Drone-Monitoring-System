@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ZoneSearchComponent } from './zone-search.component';
 
 const MaterialComponents = [
 
@@ -6,6 +7,7 @@ const MaterialComponents = [
 
 @NgModule({
   imports: [MaterialComponents],
-  exports: [MaterialComponents]
+  exports: [MaterialComponents],
+  declarations: [ZoneSearchComponent]
 })
 export class ZoneSearchModule { }
