@@ -28,4 +28,16 @@
 <app-zone-search></app-zone-search>
 <app-zone-creation></app-zone-creation>
 
+<div>
+    Firebase Data:
+    <ul>
+      <pre *ngFor="let data of drone_data | async">
+        latitude: {{ data.latitude }}
+        longitude: {{ data.longitude }}
+        heading angle: {{ data.heading_angle }}
+      </pre>
+    </ul>
+</div>
+
+
 </body>
