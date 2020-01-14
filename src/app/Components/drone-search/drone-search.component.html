@@ -6,7 +6,7 @@
 
   <mat-list class="droneList">
     <mat-list-item *ngFor="let drone of filteredDrones | async">
-      <button mat-raised-button (click)="printID(drone.id)" style="min-width: 150px">{{drone.id}}</button>
+      <button mat-raised-button (click)="changeSelectedDrone(drone.id)" style="min-width: 150px">{{drone.id}}</button>
     </mat-list-item>
   </mat-list>
 
