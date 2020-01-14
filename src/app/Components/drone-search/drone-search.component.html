@@ -1,1 +1,14 @@
-<p>drone-search works!</p>
+<div>
+
+  <mat-form-field class="mat-drone-form-field">
+    <input #droneIdFilter matInput placeholder="Search For Drone" (input)="setFilterTerm(droneIdFilter.value)">
+  </mat-form-field>
+
+  <mat-list class="droneList">
+    <mat-list-item *ngFor="let drone of filteredDrones | async">
+      <button mat-raised-button (click)="printID(drone.id)" style="min-width: 150px">{{drone.id}}</button>
+    </mat-list-item>
+  </mat-list>
+
+</div>
+
