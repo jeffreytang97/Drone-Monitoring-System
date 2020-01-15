@@ -1,5 +1,8 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {environment} from '../../../environments/environment'
+import {AngularFireModule} from 'angularfire2';
+import {AngularFireDatabaseModule} from 'angularfire2/database';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -15,6 +18,8 @@ import {MapModule} from "../map/map.module";
 import {InfoScreenModule} from "../info-screen/info-screen.module";
 import {DroneSearchModule} from "../drone-search/drone-search.module";
 import {ZoneCreationModule} from "../zone-creation/zone-creation.module";
+import {MatSidenavModule} from '@angular/material/sidenav';
+
 
 @NgModule({
   declarations: [
@@ -29,12 +34,15 @@ import {ZoneCreationModule} from "../zone-creation/zone-creation.module";
     MatDividerModule,
     MatCardModule,
     MatGridListModule,
+    MatSidenavModule,
     ZoneSearchModule,
     TopBarModule,
     MapModule,
     InfoScreenModule,
     DroneSearchModule,
-    ZoneCreationModule
+    ZoneCreationModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]
