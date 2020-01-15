@@ -19,31 +19,33 @@ import {InfoScreenModule} from "../info-screen/info-screen.module";
 import {DroneSearchModule} from "../drone-search/drone-search.module";
 import {ZoneCreationModule} from "../zone-creation/zone-creation.module";
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatListModule,
-    MatDividerModule,
-    MatCardModule,
-    MatGridListModule,
-    MatSidenavModule,
-    ZoneSearchModule,
-    TopBarModule,
-    MapModule,
-    InfoScreenModule,
-    DroneSearchModule,
-    ZoneCreationModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatListModule,
+        MatDividerModule,
+        MatCardModule,
+        MatGridListModule,
+        MatSidenavModule,
+        ZoneSearchModule,
+        TopBarModule,
+        MapModule,
+        InfoScreenModule,
+        DroneSearchModule,
+        ZoneCreationModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireDatabaseModule,
+        MatTabsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

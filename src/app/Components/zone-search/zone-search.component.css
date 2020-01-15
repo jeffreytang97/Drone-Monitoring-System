@@ -1,0 +1,5 @@
+.zoneSelectionButton {
+  min-width: available;
+  max-width: 300px;
+  width: 20%;
+}

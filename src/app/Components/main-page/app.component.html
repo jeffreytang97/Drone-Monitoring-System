@@ -24,7 +24,11 @@
 
       <mat-grid-tile [colspan]="6" [rowspan]="7">
         <mat-card class="dashboard-card">
-          Custom Search<app-drone-search></app-drone-search>
+          Custom Search
+          <mat-tab-group>
+            <mat-tab label="Drone Search"><app-drone-search></app-drone-search></mat-tab>
+            <mat-tab label="Restricted Zone Search"><app-zone-search></app-zone-search></mat-tab>
+          </mat-tab-group>
         </mat-card>
       </mat-grid-tile>
     </mat-grid-list>
@@ -38,7 +42,7 @@
 
 <app-info-screen></app-info-screen>
 <app-map></app-map>
-<app-zone-search></app-zone-search>
+
 <app-zone-creation></app-zone-creation>
 
 
