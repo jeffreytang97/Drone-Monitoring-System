@@ -7,19 +7,9 @@
   <mat-drawer class="sidebar-content" mode="side" opened>
     <mat-grid-list [cols]="6" rowHeight="66.1">
       <mat-grid-tile [colspan]="6" [rowspan]="6">
-        <mat-card class="dashboard-card">
-          Drone display data<br>
-          <div>
-            Firebase Data:
-            <ul>
-              <pre *ngFor="let data of drone_data | async">
-                latitude: {{ data.latitude }}
-                longitude: {{ data.longitude }}
-                heading angle: {{ data.heading_angle }}
-              </pre>
-            </ul>
-          </div>
-        </mat-card>
+
+        <app-info-screen></app-info-screen>
+
       </mat-grid-tile>
 
       <mat-grid-tile [colspan]="6" [rowspan]="7">
@@ -40,7 +30,7 @@
 
 </mat-drawer-container>
 
-<app-info-screen></app-info-screen>
+
 <app-map></app-map>
 
 <app-zone-creation></app-zone-creation>

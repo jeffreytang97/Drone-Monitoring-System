@@ -1,1 +1,13 @@
-<p>info-screen works!</p>
+<mat-card class="dashboard-card">
+  Drone display data<br>
+  <div>
+    Firebase Data:
+    <ul>
+              <pre *ngFor="let data of droneData | async">
+                latitude: {{ data.latitude }}
+                longitude: {{ data.longitude }}
+                heading angle: {{ data.heading_angle }}
+              </pre>
+    </ul>
+  </div>
+</mat-card>
