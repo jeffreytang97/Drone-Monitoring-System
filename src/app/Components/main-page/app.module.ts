@@ -18,6 +18,8 @@ import {MapModule} from "../map/map.module";
 import {InfoScreenModule} from "../info-screen/info-screen.module";
 import {DroneSearchModule} from "../drone-search/drone-search.module";
 import {ZoneCreationModule} from "../zone-creation/zone-creation.module";
+import {MatSidenavModule} from '@angular/material/sidenav';
+
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import {ZoneCreationModule} from "../zone-creation/zone-creation.module";
     MatDividerModule,
     MatCardModule,
     MatGridListModule,
+    MatSidenavModule,
     ZoneSearchModule,
     TopBarModule,
     MapModule,

@@ -1,0 +1,14 @@
+
+
+.mainbar-content{
+  height: 872px;
+}
+
+.sidebar-content{
+  height: 872px;
+  width: 375px;
+}
+
+.mat-grid-tile {
+  background-color: rgb(228, 228, 229);
+}

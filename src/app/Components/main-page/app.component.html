@@ -1,43 +1,45 @@
 <body>
 
-<div id="Sidebar">
-  <mat-grid-list cols="2" rowHeight="2:1">
+<app-top-bar></app-top-bar>
 
-    <mat-grid-tile>
-      <mat-card>
-        <mat-list>
-          <mat-list-item>
-            Hello World
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <button mat-raised-button>Hello World</button>
-          </mat-list-item>
-        </mat-list>
-      </mat-card>
-    </mat-grid-tile>
+<mat-drawer-container>
 
-  </mat-grid-list>
+  <mat-drawer class="sidebar-content" mode="side" opened>
+    <mat-grid-list [cols]="6" rowHeight="66.1">
+      <mat-grid-tile [colspan]="6" [rowspan]="6">
+        <mat-card class="dashboard-card">
+          Drone display data<br>
+          <div>
+            Firebase Data:
+            <ul>
+              <pre *ngFor="let data of drone_data | async">
+                latitude: {{ data.latitude }}
+                longitude: {{ data.longitude }}
+                heading angle: {{ data.heading_angle }}
+              </pre>
+            </ul>
+          </div>
+        </mat-card>
+      </mat-grid-tile>
 
-</div>
+      <mat-grid-tile [colspan]="6" [rowspan]="7">
+        <mat-card class="dashboard-card">
+          Custom Search<app-drone-search></app-drone-search>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-drawer>
 
-<app-drone-search></app-drone-search>
+  <mat-drawer-content class="mainbar-content">
+    Google map content
+  </mat-drawer-content>
+
+</mat-drawer-container>
+
 <app-info-screen></app-info-screen>
 <app-map></app-map>
-<app-top-bar></app-top-bar>
 <app-zone-search></app-zone-search>
 <app-zone-creation></app-zone-creation>
-
-<div>
-    Firebase Data:
-    <ul>
-      <pre *ngFor="let data of drone_data | async">
-        latitude: {{ data.latitude }}
-        longitude: {{ data.longitude }}
-        heading angle: {{ data.heading_angle }}
-      </pre>
-    </ul>
-</div>
 
 
 </body>
