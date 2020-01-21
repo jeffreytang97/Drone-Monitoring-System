@@ -4,6 +4,7 @@
     Firebase Data:
     <ul>
               <pre *ngFor="let data of droneData | async">
+                id: {{data.id}}
                 latitude: {{ data.latitude }}
                 longitude: {{ data.longitude }}
                 heading angle: {{ data.heading_angle }}

@@ -30,10 +30,14 @@ export class DroneSearchComponent implements OnInit {
 
       this.drones = drones; //When the drone list in the service changes, it will change here too
 
-      //When the drone list in the service changes, it will change the displayed list too
-      this.filteredDrones = new Observable<Drone[]>(observer => {
-        observer.next(drones.filter(i => this.filterValue(i.id)));
-      })
+      if (Object.keys(this.drones).length > 0) {
+
+        //When the drone list in the service changes, it will change the displayed list too
+        this.filteredDrones = new Observable<Drone[]>(observer => {
+          observer.next(this.drones.filter(i => this.filterValue(i.id)));
+        })
+
+      }
 
     });
   }
@@ -62,7 +66,7 @@ export class DroneSearchComponent implements OnInit {
 
   }
 
-  changeSelectedDrone(id : number){
+  changeSelectedDrone(id: number) {
     //TODO : Link up with other portions to indicate a change in selection
   }
 

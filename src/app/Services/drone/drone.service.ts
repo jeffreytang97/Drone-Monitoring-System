@@ -1,35 +1,56 @@
 import {Injectable} from '@angular/core';
 import {Drone} from "../../models/drone";
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
 import GeoPoint = firebase.firestore.GeoPoint;
 import * as firebase from 'firebase';
+import {AngularFireDatabase} from 'angularfire2/database';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DroneService {
 
-  private drones: Drone[] = [];
+  private droneData: any[];
+  private drones: Drone[];
+  private observableDrones : BehaviorSubject<Drone[]>;
 
-  constructor() {
+  constructor(db: AngularFireDatabase) {
+
+    this.drones = [];
+    this.observableDrones = <BehaviorSubject<Drone[]>> new BehaviorSubject([]);
+
     //TODO : Subscribe to DB to update drone info everywhere in website
 
-    //THIS IS TEST DATA - REMOVE LATER
-    this.drones = [
-      {id: 0, geoPoint: new GeoPoint(0, 0)},
-      {id: 1, geoPoint: new GeoPoint(0, 0)},
-      {id: 2, geoPoint: new GeoPoint(0, 0)},
-      {id: 3, geoPoint: new GeoPoint(0, 0)},
-      {id: 23, geoPoint: new GeoPoint(0, 0)},
-      {id: 33, geoPoint: new GeoPoint(0, 0)},
-      {id: 34, geoPoint: new GeoPoint(0, 0)}
+    db.list('/Drone_data').valueChanges().subscribe(DBData => {
+      this.droneData = DBData;
 
-    ];
+      this.drones = [];
+
+      DBData.forEach(data => {
+
+        // @ts-ignore
+        let newDrone: Drone = new Drone(data.id as string, new GeoPoint(data.latitude as number, data.longitude as number), data.heading_angle as number);
+        this.add(newDrone);
+
+      });
+
+    });
+
 
   }
 
-  getDrones(): Observable<Drone[]>{
-    return of(this.drones);
+  add(drone:Drone){
+    this.drones.push(drone);
+    this.observableDrones.next(Object.assign({}, this.drones));
+  }
+
+  remove(drone:Drone){
+    this.drones.splice(this.drones.indexOf(drone), 1);
+    this.observableDrones.next(Object.assign({}, this.drones));
+  }
+
+  getDrones() {
+    return this.observableDrones.asObservable();
   }
 
 }

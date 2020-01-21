@@ -12,8 +12,7 @@ export class InfoScreenComponent implements OnInit {
   droneData: Observable<any[]>;
 
   constructor(db: AngularFireDatabase) {
-    this.droneData = db.list('/Drone_data').valueChanges()
-    console.log(this.droneData);
+    this.droneData = db.list('/Drone_data').valueChanges();
   }
 
   ngOnInit() {
