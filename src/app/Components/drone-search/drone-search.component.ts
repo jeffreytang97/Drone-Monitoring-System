@@ -20,6 +20,9 @@ export class DroneSearchComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.drones = [];
+
     //On initialization, set the value of the drones to what is in the service
     this.getDrones();
   }
@@ -28,13 +31,22 @@ export class DroneSearchComponent implements OnInit {
     //Subscription to the droneService's list of drones
     this.droneService.getDrones().subscribe(drones => {
 
-      this.drones = drones; //When the drone list in the service changes, it will change here too
+      this.drones = drones;
+
+      console.log(this.drones);
 
       if (Object.keys(this.drones).length > 0) {
 
-        //When the drone list in the service changes, it will change the displayed list too
+        var filteredElements : Drone[] = drones.filter(i => this.filterValue(i.id));
+
         this.filteredDrones = new Observable<Drone[]>(observer => {
-          observer.next(this.drones.filter(i => this.filterValue(i.id)));
+
+        filteredElements.forEach(entry => {
+          //When the drone list in the service changes, it will change the displayed list too
+          observer.next(filteredElements);
+        })
+
+
         })
 
       }

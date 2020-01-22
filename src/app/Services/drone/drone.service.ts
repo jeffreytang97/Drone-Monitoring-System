@@ -12,12 +12,12 @@ export class DroneService {
 
   private droneData: any[];
   private drones: Drone[];
-  private observableDrones : BehaviorSubject<Drone[]>;
+  observableDrones: BehaviorSubject<Drone[]>;
 
   constructor(db: AngularFireDatabase) {
 
     this.drones = [];
-    this.observableDrones = <BehaviorSubject<Drone[]>> new BehaviorSubject([]);
+    this.observableDrones = <BehaviorSubject<Drone[]>>new BehaviorSubject([]);
 
     //TODO : Subscribe to DB to update drone info everywhere in website
 
@@ -34,22 +34,23 @@ export class DroneService {
 
       });
 
-    });
+      console.log(this.drones);
 
+    });
 
   }
 
-  add(drone:Drone){
+  add(drone: Drone) {
     this.drones.push(drone);
     this.observableDrones.next(Object.assign({}, this.drones));
   }
 
-  remove(drone:Drone){
+  remove(drone: Drone) {
     this.drones.splice(this.drones.indexOf(drone), 1);
     this.observableDrones.next(Object.assign({}, this.drones));
   }
 
-  getDrones() {
+  getDrones(): Observable<Drone[]> {
     return this.observableDrones.asObservable();
   }
 
