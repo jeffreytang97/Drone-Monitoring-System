@@ -31,13 +31,17 @@ export class DroneSearchComponent implements OnInit {
     //Subscription to the droneService's list of drones
     this.droneService.getDrones().subscribe(drones => {
 
-      this.drones = drones;
+      this.drones = [];
+
+      Object.values(drones).forEach(value =>{
+        this.drones.push(value);
+      });
 
       console.log(this.drones);
 
-      if (Object.keys(this.drones).length > 0) {
+      if (this.drones.length > 0) {
 
-        var filteredElements : Drone[] = drones.filter(i => this.filterValue(i.id));
+        var filteredElements : Drone[] = this.drones.filter(i => this.filterValue(i));
 
         this.filteredDrones = new Observable<Drone[]>(observer => {
 
@@ -54,14 +58,14 @@ export class DroneSearchComponent implements OnInit {
     });
   }
 
-  filterValue(id: number): boolean {
+  filterValue(drone: Drone): boolean {
     //function to check whether a specific drone should be shown or not
 
     if (this.searchTerm == "" || this.searchTerm == null) { //If the search term is empty, show everything
       return true;
     }
 
-    return id.toString().includes(this.searchTerm);
+    return drone.id.includes(this.searchTerm);
 
   }
 
@@ -73,7 +77,7 @@ export class DroneSearchComponent implements OnInit {
     //When the searched term changes, the filtering will go again to
     //only show the results
     this.filteredDrones = new Observable<Drone[]>(observer => {
-      observer.next(this.drones.filter(i => this.filterValue(i.id)));
+      observer.next(this.drones.filter(i => this.filterValue(i)));
     })
 
   }
