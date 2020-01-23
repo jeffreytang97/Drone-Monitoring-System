@@ -37,8 +37,6 @@ export class DroneSearchComponent implements OnInit {
         this.drones.push(value);
       });
 
-      console.log(this.drones);
-
       if (this.drones.length > 0) {
 
         var filteredElements : Drone[] = this.drones.filter(i => this.filterValue(i));

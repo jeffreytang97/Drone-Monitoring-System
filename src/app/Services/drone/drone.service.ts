@@ -29,12 +29,10 @@ export class DroneService {
       DBData.forEach(data => {
 
         // @ts-ignore
-        let newDrone: Drone = new Drone(data.id as string, new GeoPoint(data.latitude as number, data.longitude as number), data.heading_angle as number);
+        let newDrone: Drone = new Drone(data.id as string, data.latitude as number, data.longitude as number, data.heading_angle as number);
         this.add(newDrone);
 
       });
-
-      console.log(this.drones);
 
     });
 
