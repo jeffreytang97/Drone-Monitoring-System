@@ -16,44 +16,54 @@ export class DroneSearchComponent implements OnInit {
   drones: Drone[];
   filteredDrones: Observable<Drone[]>;
 
+  private currentlySelectedDroneId: string;
+
   constructor(private droneService: DroneService) {
   }
 
   ngOnInit() {
 
     this.drones = [];
+    this.currentlySelectedDroneId = null;
 
-    //On initialization, set the value of the drones to what is in the service
-    this.getDrones();
+    //On initialization, subscribe the value of the drones to what is in the service
+    this.subscribeToDrones();
+
+    //On initialization, subscribe the value of the currently selected drone to what is in the service
+    this.subscribeToCurrentlySelectedDrone();
   }
 
-  getDrones() {
+  subscribeToDrones() {
     //Subscription to the droneService's list of drones
     this.droneService.getDrones().subscribe(drones => {
 
-      this.drones = [];
+      this.drones = []; //When the drone list in the service changes, it will be reset here
 
-      Object.values(drones).forEach(value =>{
+      Object.values(drones).forEach(value => { //Objects from the service need to be transformed to be used
         this.drones.push(value);
       });
 
-      if (this.drones.length > 0) {
+      if (this.drones.length > 0) {//Make sure you don't filter an empty array
 
-        var filteredElements : Drone[] = this.drones.filter(i => this.filterValue(i));
+        //Make an array with the filter positive elements
+        var filteredElements: Drone[] = this.drones.filter(i => this.filterValue(i));
 
+        //Create an observable object with the filter positive items
         this.filteredDrones = new Observable<Drone[]>(observer => {
 
-        filteredElements.forEach(entry => {
-          //When the drone list in the service changes, it will change the displayed list too
           observer.next(filteredElements);
-        })
-
 
         })
 
       }
 
     });
+  }
+
+  private subscribeToCurrentlySelectedDrone() {
+    this.droneService.getCurrentlySelectedDrone().subscribe(drone => {
+      this.currentlySelectedDroneId = Object.values(drone)[0];
+    })
   }
 
   filterValue(drone: Drone): boolean {
@@ -80,8 +90,8 @@ export class DroneSearchComponent implements OnInit {
 
   }
 
-  changeSelectedDrone(id: number) {
-    //TODO : Link up with other portions to indicate a change in selection
+  changeSelectedDrone(drone: string) {
+    this.droneService.setCurrentlySelectedDrone(drone);
   }
 
 }

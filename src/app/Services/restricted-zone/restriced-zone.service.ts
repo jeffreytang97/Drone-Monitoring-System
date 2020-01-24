@@ -1,34 +1,70 @@
 import {Injectable} from '@angular/core';
 import {RestrictedZone} from "../../models/restricted-zone";
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
 import {Drone} from "../../models/drone";
 import GeoPoint = firebase.firestore.GeoPoint;
 import * as firebase from 'firebase';
+import {AngularFireDatabase} from "angularfire2/database";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestrictedZoneService {
 
-  private restrictedZones: RestrictedZone[] = [];
+  private restrictedZones: RestrictedZone[];
+  observableZones: BehaviorSubject<RestrictedZone[]>;
 
-  constructor() {
+  private currentlySelectedZoneId: string;
+  observableCurrentlySelectedZoneId: BehaviorSubject<string>;
 
-    this.restrictedZones = [
-      {id: 0, zoneEdges: [new GeoPoint(0,0)]},
-      {id: 1, zoneEdges: [new GeoPoint(0,0)]},
-      {id: 2, zoneEdges: [new GeoPoint(0,0)]},
-      {id: 3, zoneEdges: [new GeoPoint(0,0)]},
-      {id: 23, zoneEdges: [new GeoPoint(0,0)]},
-      {id: 33, zoneEdges: [new GeoPoint(0,0)]},
-      {id: 34, zoneEdges: [new GeoPoint(0,0)]}
+  constructor(db: AngularFireDatabase) {
 
-    ];
+    this.restrictedZones = [];
+    this.observableZones = <BehaviorSubject<RestrictedZone[]>>new BehaviorSubject([]);
+
+    this.currentlySelectedZoneId = null;
+    this.observableCurrentlySelectedZoneId = <BehaviorSubject<string>>new BehaviorSubject(null);
+
+    this.subscribeToDBZones(db);
 
   }
 
+  subscribeToDBZones(db : AngularFireDatabase){
+    db.list('/Zone_data').valueChanges().subscribe( DBData => {
+
+      this.restrictedZones = [];
+
+      DBData.forEach(data => {
+
+        // @ts-ignore
+        let newZone: RestrictedZone = new RestrictedZone(data.id as number, data.zoneLatitude as number[], data.zoneLongitude as number[]);
+        this.add(newZone);
+      })
+
+    });
+  }
+
+  add(zone: RestrictedZone) {
+    this.restrictedZones.push(zone);
+    this.observableZones.next(Object.assign({}, this.restrictedZones));
+  }
+
+  remove(zone: RestrictedZone) {
+    this.restrictedZones.splice(this.restrictedZones.indexOf(zone), 1);
+    this.observableZones.next(Object.assign({}, this.restrictedZones));
+  }
+
   getRestrictedZones(): Observable<RestrictedZone[]>{
-    return of(this.restrictedZones);
+    return this.observableZones.asObservable();
+  }
+
+  public setCurrentlySelectedZone(zoneId : string){
+    this.currentlySelectedZoneId = zoneId;
+    this.observableCurrentlySelectedZoneId.next(Object.assign({}, this.currentlySelectedZoneId));
+  }
+
+  getCurrentlySelectedZone(): Observable<string>{
+    return this.observableCurrentlySelectedZoneId.asObservable();
   }
 
 }

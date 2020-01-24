@@ -15,35 +15,66 @@ export class ZoneSearchComponent implements OnInit {
   zones: RestrictedZone[];
   filteredZones: Observable<RestrictedZone[]>;
 
+  currentlySelectedZoneId : string;
+
   constructor(private restrictedZoneService : RestrictedZoneService) {
   }
 
   ngOnInit() {
-    this.getZones();
+
+    this.zones = [];
+
+    //On initialization, subscribe the value of the zones to what is in the service
+    this.subscribeToZones();
+
+    //On initialization, subscribe the value of the currently selected zone to what is in the service
+    this.subscribeToCurrentlySelectedZone();
   }
 
-  getZones(){
+  subscribeToZones(){
     //Subscription to the droneService's list of drones
     this.restrictedZoneService.getRestrictedZones().subscribe(zones => {
 
-      this.zones = zones; //When the drone list in the service changes, it will change here too
+      this.zones = []; //When the zone list in the service changes, it will be reset here
 
-      //When the drone list in the service changes, it will change the displayed list too
-      this.filteredZones = new Observable<RestrictedZone[]>(observer => {
-        observer.next(zones.filter(i => this.filterValue(i.id)));
-      })
+      Object.values(zones).forEach(value => { //Objects from the service need to be transformed to be used
+        this.zones.push(value);
+      });
+
+      if(this.zones.length > 0){ //Make sure you don't filter an empty array
+
+        //Make an array with the filter positive elements
+        var filteredElements : RestrictedZone[] = this.zones.filter(i => this.filterValue(i));
+
+        //Create an observable object with the filter positive items
+        this.filteredZones = new Observable<RestrictedZone[]>(observer => {
+
+          observer.next(filteredElements);
+
+        })
+
+
+      }
 
     });
   }
 
-  filterValue(id: number): boolean {
+  private subscribeToCurrentlySelectedZone() {
+
+    this.restrictedZoneService.getCurrentlySelectedZone().subscribe(zone => {
+      this.currentlySelectedZoneId = Object.values(zone)[0];
+    })
+
+  }
+
+  filterValue(zone : RestrictedZone): boolean {
     //function to check whether a specific drone should be shown or not
 
     if (this.searchTerm == "" || this.searchTerm == null) { //If the search term is empty, show everything
       return true;
     }
 
-    return id.toString().includes(this.searchTerm);
+    return zone.id.toString().includes(this.searchTerm);
   }
 
   setFilterTerm(value: string){
@@ -54,12 +85,13 @@ export class ZoneSearchComponent implements OnInit {
     //When the searched term changes, the filtering will go again to
     //only show the results
     this.filteredZones = new Observable<RestrictedZone[]>(observer => {
-      observer.next(this.zones.filter(i => this.filterValue(i.id)));
+      observer.next(this.zones.filter(i => this.filterValue(i)));
     })
   }
 
-  changeSelectedZone(id : number){
-    //TODO : Link up with other portions to indicate a change in selection
+  changeSelectedZone(zoneId:string){
+    this.restrictedZoneService.setCurrentlySelectedZone(zoneId);
   }
+
 
 }
