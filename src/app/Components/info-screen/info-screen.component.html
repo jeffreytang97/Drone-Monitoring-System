@@ -3,7 +3,7 @@
   <div>
     Firebase Data:
     <ul>
-              <pre *ngFor="let data of droneData | async">
+              <pre *ngFor="let data of drones | async">
                 id: {{data.id}}
                 latitude: {{ data.latitude }}
                 longitude: {{ data.longitude }}

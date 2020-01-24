@@ -11,13 +11,10 @@ import {Drone} from "../../models/drone";
 })
 export class InfoScreenComponent implements OnInit {
 
-  //droneData: Observable<any[]>;
-
   drones: Drone[];
   currentlySelectedDroneID : string;
 
   constructor(private droneService: DroneService) {
-    //this.droneData = db.list('/Drone_data').valueChanges();
   }
 
   ngOnInit() {
