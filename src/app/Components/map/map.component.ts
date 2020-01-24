@@ -23,6 +23,8 @@ export class MapComponent implements OnInit {
   heading: number;
   drone_coordinate = new google.maps.LatLng(this.latitude, this.longitude);
 
+  currentlySelectedDroneID : string;
+
   // Create a new map variable that contains the Google Maps API along with latitude and longitude values
   map: google.maps.Map;
   lat = 45.505331312;
@@ -45,6 +47,17 @@ export class MapComponent implements OnInit {
 
     //On initialization, set the value of the drones to what is in the service and update the markers on the map
     this.createMarkers();
+
+    this.subscribeToCurrentlySelectedDrone();
+
+  }
+
+  private subscribeToCurrentlySelectedDrone(){
+    this.droneService.getCurrentlySelectedDrone().subscribe(drone =>{
+      if(drone != null){
+        this.currentlySelectedDroneID = Object.values(drone)[0];
+      }
+    })
   }
 
   createMarkers() {
@@ -81,4 +94,10 @@ export class MapComponent implements OnInit {
     this.mapOptions);
     this.createMarkers();
   }
+
+  //Function to update the currently selected drone
+  changeSelectedDrone(newSelectedID: string) {
+    this.droneService.setCurrentlySelectedDrone(newSelectedID);
+  }
+
 }

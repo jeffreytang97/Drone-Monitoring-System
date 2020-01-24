@@ -92,8 +92,8 @@ export class DroneSearchComponent implements OnInit {
 
   }
 
-  changeSelectedDrone(drone: string) {
-    this.droneService.setCurrentlySelectedDrone(drone);
+  changeSelectedDrone(newSelectedID: string) {
+    this.droneService.setCurrentlySelectedDrone(newSelectedID);
   }
 
 }
