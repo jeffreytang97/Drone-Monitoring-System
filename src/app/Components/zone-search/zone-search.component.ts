@@ -62,7 +62,10 @@ export class ZoneSearchComponent implements OnInit {
   private subscribeToCurrentlySelectedZone() {
 
     this.restrictedZoneService.getCurrentlySelectedZone().subscribe(zone => {
-      this.currentlySelectedZoneId = Object.values(zone)[0];
+      if(zone != null){
+        this.currentlySelectedZoneId = Object.values(zone)[0];
+      }
+
     })
 
   }

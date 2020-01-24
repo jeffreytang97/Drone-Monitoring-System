@@ -61,8 +61,15 @@ export class DroneService {
   }
 
   public setCurrentlySelectedDrone(drone: string) {
-    this.currentlySelectedDroneId = drone;
+    if(drone !== this.currentlySelectedDroneId){
+      this.currentlySelectedDroneId = drone;
+    } else {
+      this.currentlySelectedDroneId = null;
+    }
+
     this.observableCurrentlySelectedDroneId.next(Object.assign({}, this.currentlySelectedDroneId));
+
+    console.log(this.currentlySelectedDroneId + " is the currently selected drone");
   }
 
   getCurrentlySelectedDrone(): Observable<string> {

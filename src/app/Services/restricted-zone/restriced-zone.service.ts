@@ -34,11 +34,32 @@ export class RestrictedZoneService {
 
       this.restrictedZones = [];
 
+      console.log(DBData);
+
       DBData.forEach(data => {
 
+        let locationSeperator = ",";
+
         // @ts-ignore
-        let newZone: RestrictedZone = new RestrictedZone(data.id as number, data.zoneLatitude as number[], data.zoneLongitude as number[]);
+        let stringLatitudes : string[] = data.latitudes.split(locationSeperator);
+        let numberLatitudes : number[] = [];
+
+        stringLatitudes.forEach(entry => {
+          numberLatitudes.push(Number(entry));
+        });
+
+        // @ts-ignore
+        let stringLongitudes : string[] = data.longitudes.split(locationSeperator);
+        let numberLongitudes : number[] = [];
+
+        stringLongitudes.forEach(entry => {
+          numberLatitudes.push(Number(entry));
+        })
+
+        // @ts-ignore
+        let newZone: RestrictedZone = new RestrictedZone(data.id as number, numberLatitudes, numberLongitudes);
         this.add(newZone);
+
       })
 
     });
