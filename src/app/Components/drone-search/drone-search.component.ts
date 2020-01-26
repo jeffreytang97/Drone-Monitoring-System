@@ -63,7 +63,7 @@ export class DroneSearchComponent implements OnInit {
   private subscribeToCurrentlySelectedDrone() {
     this.droneService.getCurrentlySelectedDrone().subscribe(drone => {
       if(drone != null) {
-        this.currentlySelectedDroneId = Object.values(drone)[0];
+        this.currentlySelectedDroneId = Object.values(drone).join("");
       }
     })
   }

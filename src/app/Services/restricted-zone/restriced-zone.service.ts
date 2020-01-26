@@ -34,8 +34,6 @@ export class RestrictedZoneService {
 
       this.restrictedZones = [];
 
-      console.log(DBData);
-
       DBData.forEach(data => {
 
         let locationSeperator = ",";

@@ -67,7 +67,6 @@ export class MapComponent implements OnInit {
       Object.values(drones).forEach(value =>{
         this.drones.push(value);
       });
-      console.log(this.drones);
 
       for (var i = 0; i < this.drones.length; i++) {
         this.drone_id = this.drones[i].id;

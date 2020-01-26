@@ -6,7 +6,7 @@
 
   <mat-list class="droneList">
     <mat-list-item *ngFor="let zone of filteredZones | async">
-      <button mat-raised-button (click)="changeSelectedZone(zone.id)" class="zoneSelectionButton">{{zone.id}}</button>
+      <button mat-raised-button [ngClass]="(zone.id !== currentlySelectedZoneId) ? 'zoneSelectionButton' : 'zoneSelectionButtonSelected'" (click)="changeSelectedZone(zone.id)">{{zone.id}}</button>
     </mat-list-item>
   </mat-list>
 

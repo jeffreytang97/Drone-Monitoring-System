@@ -1,12 +1,12 @@
 <div>
 
-  <mat-form-field class="mat-drone-form-field">
-    <input #droneIdFilter matInput placeholder="Search For Drone" (input)="setFilterTerm(droneIdFilter.value)">
+  <mat-form-field class="mat-drone-form-field" style="align-self: center;">
+    <input #droneIdFilter matInput placeholder="Search For Drone" (input)="setFilterTerm(droneIdFilter.value)" >
   </mat-form-field>
 
   <mat-list class="droneList">
     <mat-list-item *ngFor="let drone of filteredDrones | async">
-      <button mat-raised-button (click)="changeSelectedDrone(drone.id)" class="droneSelectionButton">{{drone.id}}</button>
+      <button mat-raised-button (click)="changeSelectedDrone(drone.id)" [ngClass]="(drone.id !== currentlySelectedDroneId) ? 'droneSelectionButton' : 'droneSelectionButtonSelected' ">{{drone.id}}</button>
     </mat-list-item>
   </mat-list>
 

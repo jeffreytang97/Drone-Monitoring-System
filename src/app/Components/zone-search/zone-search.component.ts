@@ -63,7 +63,7 @@ export class ZoneSearchComponent implements OnInit {
 
     this.restrictedZoneService.getCurrentlySelectedZone().subscribe(zone => {
       if(zone != null){
-        this.currentlySelectedZoneId = Object.values(zone)[0];
+        this.currentlySelectedZoneId = Object.values(zone).join("");
       }
 
     })
@@ -93,7 +93,14 @@ export class ZoneSearchComponent implements OnInit {
   }
 
   changeSelectedZone(zoneId:string){
-    this.restrictedZoneService.setCurrentlySelectedZone(zoneId);
+
+    if(zoneId !== this.currentlySelectedZoneId){
+      this.currentlySelectedZoneId = zoneId;
+    } else {
+      this.currentlySelectedZoneId = null;
+    }
+
+    this.restrictedZoneService.setCurrentlySelectedZone(this.currentlySelectedZoneId);
   }
 
 
