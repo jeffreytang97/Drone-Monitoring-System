@@ -43,6 +43,19 @@ export class DroneService {
 
       });
 
+      let isCurrentValid = false;
+
+      for(let i = 0; i < this.drones.length; i++){
+        if(this.drones[i].id === this.currentlySelectedDroneId){
+          isCurrentValid = true;
+          break;
+        }
+      }
+
+      if(!isCurrentValid){
+        this.setCurrentlySelectedDrone(null);
+      }
+
     });
   }
 
