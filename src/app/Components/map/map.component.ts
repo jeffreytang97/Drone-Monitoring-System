@@ -87,11 +87,15 @@ export class MapComponent implements OnInit {
         this.heading = this.drones[i].heading;
         this.drone_coordinate = new google.maps.LatLng(this.latitude, this.longitude);
 
+        var drone_marker_icon = "https://img.icons8.com/ios-glyphs/40/FF3434/drone.png";
+
         var marker = new google.maps.Marker({
           position: this.drone_coordinate,
           map: this.map,
           title: this.drone_id,
+          icon: drone_marker_icon,
           });
+        marker.setOptions({'opacity': 100})
         marker.setMap(this.map);
         // Store every marker in a list
         this.marker_list.push(marker);
