@@ -3,7 +3,7 @@ import {DroneService} from "../../Services/drone/drone.service";
 import {Drone} from "../../models/drone";
 import {Observable} from "rxjs";
 import * as firebase from "firebase";
-import GeoPoint = firebase.firestore.GeoPoint;
+import {AngularFireDatabase} from 'angularfire2/database';
 
 @Component({
   selector: 'app-map',
@@ -22,6 +22,7 @@ export class MapComponent implements OnInit {
   drone_id: string;
   heading: number;
   drone_coordinate = new google.maps.LatLng(this.latitude, this.longitude);
+  marker_list: any[];
 
   currentlySelectedDroneID : string;
 
@@ -47,9 +48,8 @@ export class MapComponent implements OnInit {
 
     //On initialization, set the value of the drones to what is in the service and update the markers on the map
     this.createMarkers();
-
+    this.marker_list = [];
     this.subscribeToCurrentlySelectedDrone();
-
   }
 
   private subscribeToCurrentlySelectedDrone(){
@@ -68,20 +68,37 @@ export class MapComponent implements OnInit {
         this.drones.push(value);
       });
 
+      if(this.marker_list === undefined || this.marker_list.length == 0){
+        // do nothing
+      } else{
+        for (var j = 0; j < this.marker_list.length; j++) {
+          this.marker_list[j].setPosition(this.drone_coordinate);
+          this.marker_list[j].setMap(this.map);
+        }
+      }
+
       for (var i = 0; i < this.drones.length; i++) {
         this.drone_id = this.drones[i].id;
         this.latitude = this.drones[i].latitude;
         this.longitude = this.drones[i].longitude;
         this.heading = this.drones[i].heading;
-
         this.drone_coordinate = new google.maps.LatLng(this.latitude, this.longitude);
+
         var marker = new google.maps.Marker({
           position: this.drone_coordinate,
           map: this.map,
-        });
+          title: this.drone_id,
+          });
         marker.setMap(this.map);
+        // Store every marker in a list
+        this.marker_list.push(marker);
       }
     });
+  }
+
+  // When a change occurs in firebase, we must change the marker position
+  onUpdate() {
+
   }
 
   ngAfterViewInit() {
