@@ -1,1 +1,26 @@
-<p>zone-creation works!</p>
+<mat-card class="dashboard-card">
+
+  <mat-form-field class="ZoneNameField">
+    <input matInput placeholder="Zone Name">
+  </mat-form-field>
+
+  <mat-button-toggle-group>
+    <mat-button-toggle><i class="material=icons">crop_square</i></mat-button-toggle>
+    <mat-button-toggle><i class="material=icons">panorama_fish_eye</i></mat-button-toggle>
+    <mat-button-toggle><i class="material=icons">fullscreen</i></mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <!--
+  Square : Show list of points
+
+  Circle : show Center and Radius
+
+  Polygon : show list of points
+  -->
+
+  <div>
+    <button mat-raised-button>Clear</button>
+    <button mat-raised-button>Save</button>
+  </div>
+
+</mat-card>
