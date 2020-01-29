@@ -5,11 +5,12 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
+import {MatListModule} from "@angular/material/list";
 
 const MaterialComponents = [];
 
 @NgModule({
-  imports: [MaterialComponents, MatCardModule, MatButtonToggleModule, MatFormFieldModule, MatButtonModule],
+  imports: [MaterialComponents, MatCardModule, MatButtonToggleModule, MatFormFieldModule, MatButtonModule, MatListModule, CommonModule],
   exports: [MaterialComponents, ZoneCreationComponent],
   declarations: [ZoneCreationComponent],
 })

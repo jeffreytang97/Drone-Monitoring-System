@@ -5,10 +5,23 @@
   </mat-form-field>
 
   <mat-button-toggle-group>
-    <mat-button-toggle><i class="material=icons">crop_square</i></mat-button-toggle>
-    <mat-button-toggle><i class="material=icons">panorama_fish_eye</i></mat-button-toggle>
-    <mat-button-toggle><i class="material=icons">fullscreen</i></mat-button-toggle>
+    <mat-button-toggle (change)="changeCurrentlySelectedMode('Square')"><i class="material=icons">crop_square</i></mat-button-toggle>
+    <mat-button-toggle (change)="changeCurrentlySelectedMode('Circle')"><i class="material=icons">panorama_fish_eye</i></mat-button-toggle>
+    <mat-button-toggle (change)="changeCurrentlySelectedMode('Freeform')"><i class="material=icons">fullscreen</i></mat-button-toggle>
   </mat-button-toggle-group>
+
+  <div *ngIf="this.currentlySelectedMode === 'Square' || this.currentlySelectedMode === 'Freeform'">
+    <mat-list-item *ngFor="let point of displayedPoints | async">
+
+
+    </mat-list-item>
+  </div>
+
+  <div *ngIf="this.currentlySelectedMode === 'circle'">
+
+
+
+  </div>
 
   <!--
   Square : Show list of points
@@ -19,8 +32,8 @@
   -->
 
   <div>
-    <button mat-raised-button>Clear</button>
-    <button mat-raised-button>Save</button>
+    <button mat-raised-button (click)="clearEditesZone()">Clear</button>
+    <button mat-raised-button (click)="saveEditedZone()">Save</button>
   </div>
 
 </mat-card>

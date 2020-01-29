@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RestrictedZoneService} from "../../Services/restricted-zone/restriced-zone.service";
+import {RestrictedZoneService} from "../../Services/restricted-zone/restricted-zone.service";
 import {RestrictedZone} from "../../models/restricted-zone";
 import {Observable} from "rxjs";
 import {Drone} from "../../models/drone";
