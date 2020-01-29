@@ -1,13 +1,32 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ZoneCreationComponent} from './zone-creation.component';
+import {environment} from '../../../environments/environment'
+import {AngularFireModule} from 'angularfire2';
+import {AngularFireDatabaseModule} from 'angularfire2/database';
+
+import {MatButtonModule} from "@angular/material/button";
+import {MatListModule} from "@angular/material/list";
+import {MatCardModule} from "@angular/material/card";
+import {TopBarModule} from "../top-bar/top-bar.module";
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 const MaterialComponents = [];
 
 @NgModule({
-  imports: [MaterialComponents],
+  declarations: [
+    ZoneCreationComponent,
+  ],
+  imports: [
+    MaterialComponents,
+    MatButtonModule,
+    MatListModule,
+    MatSidenavModule,
+    TopBarModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+  ],
   exports: [MaterialComponents, ZoneCreationComponent],
-  declarations: [ZoneCreationComponent],
 })
 export class ZoneCreationModule {
 }

@@ -21,10 +21,12 @@ import {ZoneCreationModule} from "../zone-creation/zone-creation.module";
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatTabsModule} from "@angular/material/tabs";
 
+import { routing } from '../top-bar/top-bar.routing';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
     imports: [
         BrowserModule,
@@ -44,7 +46,8 @@ import {MatTabsModule} from "@angular/material/tabs";
         ZoneCreationModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
-        MatTabsModule
+        MatTabsModule,
+        routing
     ],
   providers: [],
   bootstrap: [AppComponent]

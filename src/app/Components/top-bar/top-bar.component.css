@@ -1,4 +1,21 @@
 
 .Toolbar-content{
-  background-color: rgb(191, 194, 202);
+  background-color: rgb(51, 62, 161);
+  color: white;
+  height: 55px;
+}
+
+.title-content{
+  padding-left: 10px;
+}
+
+.top-bar-alignment{
+  padding-top: 2px;
+  padding-left: 140px;
+}
+
+.button-content{
+  font-size: 17px;
+  padding-left: 25x;
+  padding-right: 16px;
 }
