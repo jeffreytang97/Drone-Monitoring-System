@@ -4,12 +4,12 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonModule} from '@angular/material/button';
 import {RouterModule, Routes} from '@angular/router';
-import { routing } from './top-bar.routing';
+import { AppRoutingModule } from '../app-component/app-routing.module';
 
 const MaterialComponents = [];
 
 @NgModule({
-  imports: [MaterialComponents, MatToolbarModule, MatSidenavModule, MatButtonModule, routing],
+  imports: [MaterialComponents, MatToolbarModule, MatSidenavModule, MatButtonModule, AppRoutingModule],
   exports: [MaterialComponents, TopBarComponent],
   declarations: [TopBarComponent]
 })
