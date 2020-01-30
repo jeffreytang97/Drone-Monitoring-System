@@ -10,7 +10,7 @@ import {MatListModule} from "@angular/material/list";
 const MaterialComponents = [];
 
 @NgModule({
-  imports: [MaterialComponents, MatCardModule, MatButtonToggleModule, MatFormFieldModule, MatButtonModule, MatListModule, CommonModule],
+  imports: [MaterialComponents],
   exports: [MaterialComponents, ZoneCreationComponent],
   declarations: [ZoneCreationComponent],
 })
