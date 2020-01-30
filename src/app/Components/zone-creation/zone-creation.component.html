@@ -1,39 +1,16 @@
-<mat-card class="dashboard-card">
+<body>
 
-  <mat-form-field class="ZoneNameField">
-    <input matInput placeholder="Zone Name">
-  </mat-form-field>
+<app-top-bar></app-top-bar>
 
-  <mat-button-toggle-group>
-    <mat-button-toggle (change)="changeCurrentlySelectedMode('Square')"><i class="material=icons">crop_square</i></mat-button-toggle>
-    <mat-button-toggle (change)="changeCurrentlySelectedMode('Circle')"><i class="material=icons">panorama_fish_eye</i></mat-button-toggle>
-    <mat-button-toggle (change)="changeCurrentlySelectedMode('Freeform')"><i class="material=icons">fullscreen</i></mat-button-toggle>
-  </mat-button-toggle-group>
+<mat-drawer-container>
 
-  <div *ngIf="this.currentlySelectedMode === 'Square' || this.currentlySelectedMode === 'Freeform'">
-    <mat-list-item *ngFor="let point of displayedPoints | async">
+  <mat-drawer class="sidebar-content" mode="side" opened>
+  </mat-drawer>
 
+  <mat-drawer-content class="mainbar-content">
+    <div #staticMapContainer id="map_zone_creation"></div>
+  </mat-drawer-content>
 
-    </mat-list-item>
-  </div>
+</mat-drawer-container>
 
-  <div *ngIf="this.currentlySelectedMode === 'circle'">
-
-
-
-  </div>
-
-  <!--
-  Square : Show list of points
-
-  Circle : show Center and Radius
-
-  Polygon : show list of points
-  -->
-
-  <div>
-    <button mat-raised-button (click)="clearEditesZone()">Clear</button>
-    <button mat-raised-button (click)="saveEditedZone()">Save</button>
-  </div>
-
-</mat-card>
+</body>

@@ -4,8 +4,8 @@ import {environment} from '../../../environments/environment'
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
+import {HomePageComponent} from './home-page.component';
+
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
 import {MatListModule} from "@angular/material/list";
@@ -24,11 +24,10 @@ import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
-    AppComponent
+    HomePageComponent,
   ],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         BrowserAnimationsModule,
         MatButtonModule,
         MatListModule,
@@ -46,8 +45,8 @@ import {MatTabsModule} from "@angular/material/tabs";
         AngularFireDatabaseModule,
         MatTabsModule
     ],
-  providers: [],
-  bootstrap: [AppComponent]
+    bootstrap: [HomePageComponent],
+    exports: [HomePageComponent]
 })
-export class AppModule {
+export class HomePageModule {
 }

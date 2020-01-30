@@ -1,8 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {RestrictedZoneService} from "../../Services/restricted-zone/restricted-zone.service";
-import {RestrictedZone} from "../../models/restricted-zone";
-import {Observable} from "rxjs";
-import {DatabaseInteractionService} from "../../Services/database-interaction/database-interaction.service";
+import {Component, OnInit, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 
 @Component({
   selector: 'app-zone-creation',
@@ -11,66 +7,36 @@ import {DatabaseInteractionService} from "../../Services/database-interaction/da
 })
 export class ZoneCreationComponent implements OnInit {
 
-  zones: RestrictedZone[];
-  editedZone : RestrictedZone;
+   @ViewChild('staticMapContainer', {static: false}) zone_map: ElementRef;
 
-  //List of points for Square and Freeform views
-  displayedPoints : Observable<RestrictedZone>;
+    // Data initialization
 
-  //
+    // Create a new map variable that contains the Google Maps API along with latitude and longitude values
+    map: google.maps.Map;
+    lat = 45.505331312;
+    lng = -73.55249779;
 
-  currentlySelectedMode : String;
+    // Create a coordinate variable to use our latitude and longitude
+    coordinates = new google.maps.LatLng(this.lat, this.lng);
 
-  constructor(private restrictedZoneService : RestrictedZoneService, private databaseInteractionService : DatabaseInteractionService) {
-  }
+    // Create a mapOptions variable, initialize map in Montreal
+    mapOptions: google.maps.MapOptions = {
+          center: this.coordinates,
+          zoom: 8,
+        };
 
-  ngOnInit() {
+    constructor() {
+    }
 
-    this.subscribeToZones();
+    ngOnInit() {
+    }
 
-  }
+    ngAfterViewInit() {
+        this.mapInitializer();
+    }
 
-  subscribeToZones(){
-    //Subscription to the droneService's list of drones
-    this.restrictedZoneService.getRestrictedZones().subscribe(zones => {
-
-      this.zones = []; //When the zone list in the service changes, it will be reset here
-
-      Object.values(zones).forEach(value => { //Objects from the service need to be transformed to be used
-        this.zones.push(value);
-      });
-
-    });
-  }
-
-  addPoint(latitude : number, longitude : number){
-    this.editedZone.zoneLongitudes.push(longitude);
-    this.editedZone.zoneLatitudes.push(latitude);
-    this.updatePointsList();
-  }
-
-  removePoint(latitude : number, longitude : number){
-    this.editedZone.zoneLongitudes.splice(this.editedZone.zoneLongitudes.indexOf(longitude),1);
-    this.editedZone.zoneLongitudes.splice(this.editedZone.zoneLatitudes.indexOf(latitude),1);
-    this.updatePointsList();
-  }
-
-  updatePointsList(){
-    this.displayedPoints = new Observable<RestrictedZone>(observer => {
-      observer.next(this.editedZone);
-    });
-  }
-
-  clearEditesZone(){
-    this.editedZone.clearZone();
-  }
-
-  saveEditedZone(){
-    this.databaseInteractionService.addNewZoneEntry(this.editedZone);
-  }
-
-  changeCurrentlySelectedMode(mode : string){
-    this.currentlySelectedMode = mode;
-  }
-
+    mapInitializer() {
+      this.map = new google.maps.Map(this.zone_map.nativeElement,
+      this.mapOptions);
+    }
 }

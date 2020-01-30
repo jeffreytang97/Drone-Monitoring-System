@@ -23,7 +23,7 @@ export class MapComponent implements OnInit {
   heading: number;
   drone_coordinate = new google.maps.LatLng(this.latitude, this.longitude);
   marker_list: any[];
-
+  current_marker = google.maps.Marker
   currentlySelectedDroneID : string;
 
   // Create a new map variable that contains the Google Maps API along with latitude and longitude values
@@ -72,9 +72,12 @@ export class MapComponent implements OnInit {
         // do nothing
       } else{
         for (var j = 0; j < this.marker_list.length; j++) {
-          this.marker_list[j].setPosition(this.drone_coordinate);
-          this.marker_list[j].setMap(this.map);
+          this.marker_list[j].setMap(null);
+          //this.marker_list[j].setPosition(this.drone_coordinate);
+          //this.marker_list[j].setMap(this.map);
         }
+        // re-initialize the list everytime a drone location is updated
+        this.marker_list = [];
       }
 
       for (var i = 0; i < this.drones.length; i++) {
@@ -84,21 +87,20 @@ export class MapComponent implements OnInit {
         this.heading = this.drones[i].heading;
         this.drone_coordinate = new google.maps.LatLng(this.latitude, this.longitude);
 
+        var drone_marker_icon = "https://img.icons8.com/ios-glyphs/40/FF3434/drone.png";
+
         var marker = new google.maps.Marker({
           position: this.drone_coordinate,
           map: this.map,
           title: this.drone_id,
+          icon: drone_marker_icon,
           });
+        marker.setOptions({'opacity': 100})
         marker.setMap(this.map);
         // Store every marker in a list
         this.marker_list.push(marker);
       }
     });
-  }
-
-  // When a change occurs in firebase, we must change the marker position
-  onUpdate() {
-
   }
 
   ngAfterViewInit() {
