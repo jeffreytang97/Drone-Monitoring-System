@@ -7,12 +7,12 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
 import {MatListModule} from "@angular/material/list";
+import {MatInputModule} from "@angular/material/input";
 
-const MaterialComponents = [ MatCardModule, MatButtonToggleModule, MatFormFieldModule, MatButtonModule, MatListModule, CommonModule ];
 
 @NgModule({
   declarations: [ZoneCreationMenuComponent],
-  imports: [ MaterialComponents ],
-  exports: [MaterialComponents, ZoneCreationMenuComponent],
+  imports: [MatCardModule, MatButtonToggleModule, MatFormFieldModule, MatButtonModule, MatListModule, CommonModule, MatInputModule],
+  exports: [MatCardModule, MatButtonToggleModule, MatFormFieldModule, MatButtonModule, MatListModule, CommonModule, ZoneCreationMenuComponent],
 })
 export class ZoneCreationMenuModule { }

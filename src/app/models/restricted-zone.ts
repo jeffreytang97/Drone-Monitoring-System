@@ -1,34 +1,24 @@
-import GeoPoint = firebase.firestore.GeoPoint;
-import * as firebase from 'firebase';
+import {Circle} from "./Circle";
+import {GeoLocation} from "./GeoLocation";
 
 export class RestrictedZone {
 
-  private _id : number;
-  private _zoneLatitudes : number[];
-  private _zoneLongitudes : number[];
+  public id : string;
+  public geoLocations : GeoLocation[];
+  public circle : Circle;
+  public geoLocationBased : boolean;
 
- constructor(id: number, zoneLatitudes: number[], zoneLongitudes: number[]){
-    this._id = id;
-    this._zoneLatitudes = zoneLatitudes;
-    this._zoneLongitudes = zoneLongitudes;
-  }
-
-  get id(): number {
-    return this._id;
-  }
-
-  get zoneLatitudes(): number[] {
-    return this._zoneLatitudes;
-  }
-
-  get zoneLongitudes(): number[] {
-    return this._zoneLongitudes;
+ constructor(id: string, geoLocation : GeoLocation[], circle: Circle, geoLocationBased : boolean){
+    this.id = id;
+    this.geoLocations = geoLocation;
+    this.circle = circle;
+    this.geoLocationBased = geoLocationBased;
   }
 
   clearZone(){
-   this._id = -1;
-   this._zoneLatitudes = [];
-   this._zoneLongitudes = [];
+   this.id = "";
+   this.geoLocations = [];
+   this.circle = new Circle(null, null);
   }
 
 }
