@@ -113,8 +113,11 @@ export class MapComponent implements OnInit {
               this.map.setZoom(8);
               this.map.setCenter(current_marker.getPosition());
           });
-          this.changeSelectedDrone(current_marker.getTitle());
       })(current_marker);
+
+      current_marker.onClick = () => {
+        this.changeSelectedDrone(current_marker.getTitle());
+      }
 
       //console.log(current_marker.getTitle());
       this.marker_list[j] = current_marker;
