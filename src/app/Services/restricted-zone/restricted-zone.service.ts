@@ -29,7 +29,7 @@ export class RestrictedZoneService {
 
   }
 
-  subscribeToDBZones(db : AngularFireDatabase){
+  private subscribeToDBZones(db : AngularFireDatabase){
     db.list('/Zone_data').valueChanges().subscribe( DBData => {
 
       this.restrictedZones = [];
@@ -84,6 +84,25 @@ export class RestrictedZoneService {
 
   getCurrentlySelectedZone(): Observable<string>{
     return this.observableCurrentlySelectedZoneId.asObservable();
+  }
+
+  public static dbSerialize(zone : RestrictedZone) : any{
+
+    let latitudes = "";
+    let longitudes = "";
+
+    for(let i = 0; i < zone.geoLocations.length; i++){
+      if(i != zone.geoLocations.length-1){
+        latitudes += zone.geoLocations[i].latitude + ",";
+        longitudes += zone.geoLocations[i].longitude + ",";
+      } else {
+        latitudes += zone.geoLocations[i].latitude;
+        longitudes += zone.geoLocations[i].longitude;
+      }
+
+    }
+
+    return {id: zone.id, latitudes: latitudes, longitudes: longitudes};
   }
 
 }

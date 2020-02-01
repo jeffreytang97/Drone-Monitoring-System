@@ -43,17 +43,17 @@ export class DroneSearchComponent implements OnInit {
         this.drones.push(value);
       });
 
-      if (this.drones.length > 0) {//Make sure you don't filter an empty array
+      if (this.drones.length > 0) {// Make sure you don't filter an empty array
 
-        //Make an array with the filter positive elements
-        var filteredElements: Drone[] = this.drones.filter(i => this.filterValue(i));
+        // Make an array with the filter positive elements
+        let filteredElements: Drone[] = this.drones.filter(i => this.filterValue(i));
 
-        //Create an observable object with the filter positive items
+        // Create an observable object with the filter positive items
         this.filteredDrones = new Observable<Drone[]>(observer => {
 
           observer.next(filteredElements);
 
-        })
+        });
 
       }
 

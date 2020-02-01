@@ -29,7 +29,7 @@ export class DroneService {
 
   }
 
-  subscribeToDBDrones(db: AngularFireDatabase) {
+  private subscribeToDBDrones(db: AngularFireDatabase) {
     //Subscribe to the drone data from the DB
     db.list('/Drone_data').valueChanges().subscribe(DBData => {
 
@@ -59,17 +59,17 @@ export class DroneService {
     });
   }
 
-  add(drone: Drone) {
+  private add(drone: Drone) {
     this.drones.push(drone);
     this.observableDrones.next(Object.assign({}, this.drones));
   }
 
-  remove(drone: Drone) {
+  private remove(drone: Drone) {
     this.drones.splice(this.drones.indexOf(drone), 1);
     this.observableDrones.next(Object.assign({}, this.drones));
   }
 
-  getDrones(): Observable<Drone[]> {
+  public getDrones(): Observable<Drone[]> {
     return this.observableDrones.asObservable();
   }
 
@@ -83,7 +83,7 @@ export class DroneService {
     this.observableCurrentlySelectedDroneId.next(Object.assign({}, this.currentlySelectedDroneId));
   }
 
-  getCurrentlySelectedDrone(): Observable<string> {
+  public getCurrentlySelectedDrone(): Observable<string> {
     return this.observableCurrentlySelectedDroneId.asObservable();
   }
 
