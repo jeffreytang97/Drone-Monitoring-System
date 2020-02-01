@@ -1,14 +1,14 @@
-.mainbar-content{
+/*.mainbar-content{
   height: 872px;
-}
+}*/
 
 .sidebar-content{
-  height: 872px;
+  height: 100%;
   width: 375px;
   background-color: rgb(241, 241, 242);
 }
 
 #map_zone_creation {
-    height: 100%;
+    height: 94vh;
     width: 100%;
    }
