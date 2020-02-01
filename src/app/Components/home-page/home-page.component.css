@@ -1,13 +1,13 @@
-.mainbar-content{
-  height: 872px;
-}
+/*.mainbar-content{
+  height: 800px;
+}*/
 
 .dashboard-card {
   height: 90%
 }
 
 .sidebar-content{
-  height: 872px;
+  height: auto;
   width: 375px;
 }
 
