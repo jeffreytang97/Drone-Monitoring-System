@@ -8,18 +8,18 @@
 
   <mat-drawer class="sidebar-content" mode="side" opened>
     <mat-grid-list [cols]="6" class="myGridList" rowHeight="fit">
-      <mat-grid-tile [colspan]="6" [rowspan]="6">
+      <mat-grid-tile [colspan]="6" [rowspan]="7">
 
         <app-info-screen></app-info-screen>
 
       </mat-grid-tile>
 
-      <mat-grid-tile [colspan]="6" [rowspan]="7">
+      <mat-grid-tile [colspan]="6" [rowspan]="6">
         <mat-card class="dashboard-card">
-          Custom Search
+          <p>Custom Search</p>
           <mat-tab-group>
             <mat-tab label="Drone Search"><app-drone-search></app-drone-search></mat-tab>
-            <mat-tab label="Restricted Zone Search"><app-zone-search></app-zone-search></mat-tab>
+            <mat-tab label="Zone Search"><app-zone-search></app-zone-search></mat-tab>
           </mat-tab-group>
         </mat-card>
       </mat-grid-tile>

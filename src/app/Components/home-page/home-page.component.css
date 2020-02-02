@@ -3,11 +3,12 @@
 }*/
 
 .dashboard-card {
-  height: 90%
+  height: 90%;
+  width: 100%;
 }
 
 .sidebar-content{
-  height: auto;
+  height: 100%;
   width: 375px;
 }
 
