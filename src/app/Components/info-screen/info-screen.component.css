@@ -1,7 +1,7 @@
 
 .dashboard-card{
   text-align: left;
-  min-width: 300px;
+  min-width: 330px;
 }
 
 .myGridList{
@@ -18,16 +18,18 @@
 .column-left {
   text-align: center;
   float: left;
-  width: 65%;
+  width: 55%;
   height: 20px;
   padding-right: 15px;
-  padding-bottom: 10px;
+  padding-top: 15px;
+  padding-left: 0px;
 }
-/* Float four columns side by side */
+/* Float columns side by side */
 .column-right {
   text-align: center;
   float: left;
-  width: 30%;
-  height: 40px;
-  padding-bottom: 20px;
+  width: 40%;
+  height: 30px;
+  padding-bottom: 13px;
+  padding-top: 13px;
 }

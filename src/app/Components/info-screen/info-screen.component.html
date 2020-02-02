@@ -4,13 +4,14 @@
     <mat-card-title>Drone Info Display</mat-card-title>
     <mat-card-subtitle>Manufacturer Name</mat-card-subtitle>
   </mat-card-header>
+  <mat-divider></mat-divider>
   <mat-card-content>
     <div class="row">
       <div class="column-left">
         <mat-card>Drone ID:</mat-card>
       </div>
       <div class="column-right">
-        <mat-card>N/A</mat-card>
+        <mat-card>{{drone_id}}</mat-card>
       </div>
     </div>
     <div class="row">
@@ -18,7 +19,7 @@
         <mat-card>Heading Angle:</mat-card>
       </div>
       <div class="column-right">
-        <mat-card>N/A</mat-card>
+        <mat-card>{{heading}}°</mat-card>
       </div>
     </div>
     <div class="row">
@@ -26,14 +27,14 @@
         <mat-card>Latitude:</mat-card>
       </div>
       <div class="column-right">
-        <mat-card>N/A</mat-card>
+        <mat-card>{{latitude}}</mat-card>
       </div>
       <div class="row">
         <div class="column-left">
-          <mat-card>Longtitude:</mat-card>
+          <mat-card>Longitude:</mat-card>
         </div>
         <div class="column-right">
-          <mat-card>N/A</mat-card>
+          <mat-card>{{longitude}}</mat-card>
         </div>
       </div>
       <div class="row">
@@ -41,7 +42,7 @@
           <mat-card>Ground Speed:</mat-card>
         </div>
         <div class="column-right">
-          <mat-card>N/A</mat-card>
+          <mat-card>(N/A) km/h</mat-card>
         </div>
       </div>
       <div class="row">
@@ -49,7 +50,7 @@
           <mat-card>Altitude:</mat-card>
         </div>
         <div class="column-right">
-          <mat-card>N/A</mat-card>
+          <mat-card>(N/A) m</mat-card>
         </div>
       </div>
     </div>
