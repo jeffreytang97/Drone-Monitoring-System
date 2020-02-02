@@ -7,11 +7,12 @@
 
 .title-content{
   padding-left: 10px;
+  font-size: 24px;
+  padding-right: 100px;
 }
 
 .top-bar-alignment{
   padding-top: 2px;
-  padding-left: 140px;
 }
 
 .button-content{
