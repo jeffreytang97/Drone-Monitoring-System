@@ -50,6 +50,7 @@ export class MapComponent implements OnInit {
     //On initialization, set the value of the drones to what is in the service and update the markers on the map
     this.createMarkers();
     this.subscribeToCurrentlySelectedDrone();
+    this.changeSelectedDrone(null);
   }
 
   private subscribeToCurrentlySelectedDrone(){
@@ -79,11 +80,13 @@ export class MapComponent implements OnInit {
       }
 
       for (var i = 0; i < this.drones.length; i++) {
+
         this.drone_id = this.drones[i].id;
         this.latitude = this.drones[i].latitude;
         this.longitude = this.drones[i].longitude;
         this.heading = this.drones[i].heading;
         this.drone_coordinate = new google.maps.LatLng(this.latitude, this.longitude);
+
         var drone_marker_icon = "https://img.icons8.com/ios-glyphs/40/FF3434/drone.png";
         var marker = new google.maps.Marker({
           position: this.drone_coordinate,
@@ -96,30 +99,23 @@ export class MapComponent implements OnInit {
         // Store every marker in a list
         this.marker_list.push(marker);
       }
-
       this.onClickMarkers();
-
     });
   }
 
   onClickMarkers(){
     for (var j = 0; j < this.marker_list.length; j++){
       var current_marker = this.marker_list[j];
-
+      var that = this;
       //Attach click event to the marker.
       (function (current_marker) {
-          google.maps.event.addListener(current_marker, "click", function (e) {
-              console.log(current_marker.getTitle());
+          google.maps.event.addListener(current_marker, "click", function(e) {
+              //console.log(current_marker.getTitle());
               this.map.setZoom(8);
               this.map.setCenter(current_marker.getPosition());
+              that.changeSelectedDrone(current_marker.getTitle());
           });
       })(current_marker);
-
-      current_marker.onClick = () => {
-        this.changeSelectedDrone(current_marker.getTitle());
-      }
-
-      //console.log(current_marker.getTitle());
       this.marker_list[j] = current_marker;
     }
   }
