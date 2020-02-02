@@ -1,1 +1,13 @@
-<p>zone-search works!</p>
+<div>
+
+  <mat-form-field class="mat-zone-form-field">
+    <input #zoneIdFilter matInput placeholder="Search For Zones" (input)="setFilterTerm(zoneIdFilter.value)">
+  </mat-form-field>
+
+  <mat-list class="droneList">
+    <mat-list-item *ngFor="let zone of filteredZones | async">
+      <button mat-raised-button [ngClass]="(zone.id !== currentlySelectedZoneId) ? 'zoneSelectionButton' : 'zoneSelectionButtonSelected'" (click)="changeSelectedZone(zone.id)">{{zone.id}}</button>
+    </mat-list-item>
+  </mat-list>
+
+</div>

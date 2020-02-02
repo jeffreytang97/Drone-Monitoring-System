@@ -1,0 +1,19 @@
+.mainbar-content{
+  height: 872px;
+}
+
+.dashboard-card{
+  height: 90%;
+  width: 90%;
+}
+
+.sidebar-content{
+  height: 872px;
+  width: 375px;
+  background-color: rgb(241, 241, 242);
+}
+
+#map_zone_creation {
+    height: 100%;
+    width: 100%;
+   }

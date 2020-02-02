@@ -7,11 +7,15 @@ import {CommonModule} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 
 const MaterialComponents = [
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatInputModule,
+  MatListModule,
+  CommonModule,
+  MatButtonModule
 ];
 
 @NgModule({
-  imports: [MaterialComponents, MatInputModule, MatListModule, CommonModule, MatButtonModule],
+  imports: [MaterialComponents],
   exports: [MaterialComponents, DroneSearchComponent],
   declarations: [DroneSearchComponent]
 })

@@ -1,5 +1,12 @@
 .droneSelectionButton {
   min-width: available;
   max-width: 300px;
-  width: 20%;
+  width: 100%;
+}
+
+.droneSelectionButtonSelected {
+  min-width: available;
+  max-width: 300px;
+  width: 100%;
+  background: darkgrey;
 }

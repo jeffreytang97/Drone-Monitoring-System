@@ -16,36 +16,66 @@ export class DroneSearchComponent implements OnInit {
   drones: Drone[];
   filteredDrones: Observable<Drone[]>;
 
+  private currentlySelectedDroneId: string;
+
   constructor(private droneService: DroneService) {
   }
 
   ngOnInit() {
-    //On initialization, set the value of the drones to what is in the service
-    this.getDrones();
+
+    this.drones = [];
+    this.currentlySelectedDroneId = null;
+
+    //On initialization, subscribe the value of the drones to what is in the service
+    this.subscribeToDrones();
+
+    //On initialization, subscribe the value of the currently selected drone to what is in the service
+    this.subscribeToCurrentlySelectedDrone();
   }
 
-  getDrones() {
+  subscribeToDrones() {
     //Subscription to the droneService's list of drones
     this.droneService.getDrones().subscribe(drones => {
 
-      this.drones = drones; //When the drone list in the service changes, it will change here too
+      this.drones = []; //When the drone list in the service changes, it will be reset here
 
-      //When the drone list in the service changes, it will change the displayed list too
-      this.filteredDrones = new Observable<Drone[]>(observer => {
-        observer.next(drones.filter(i => this.filterValue(i.id)));
-      })
+      Object.values(drones).forEach(value => { //Objects from the service need to be transformed to be used
+        this.drones.push(value);
+      });
+
+      if (this.drones.length > 0) {// Make sure you don't filter an empty array
+
+        // Make an array with the filter positive elements
+        let filteredElements: Drone[] = this.drones.filter(i => this.filterValue(i));
+
+        // Create an observable object with the filter positive items
+        this.filteredDrones = new Observable<Drone[]>(observer => {
+
+          observer.next(filteredElements);
+
+        });
+
+      }
 
     });
   }
 
-  filterValue(id: number): boolean {
+  private subscribeToCurrentlySelectedDrone() {
+    this.droneService.getCurrentlySelectedDrone().subscribe(drone => {
+      if(drone != null) {
+        this.currentlySelectedDroneId = Object.values(drone).join("");
+      }
+    })
+  }
+
+  filterValue(drone: Drone): boolean {
     //function to check whether a specific drone should be shown or not
 
     if (this.searchTerm == "" || this.searchTerm == null) { //If the search term is empty, show everything
       return true;
     }
 
-    return id.toString().includes(this.searchTerm);
+    return drone.id.includes(this.searchTerm);
 
   }
 
@@ -57,13 +87,13 @@ export class DroneSearchComponent implements OnInit {
     //When the searched term changes, the filtering will go again to
     //only show the results
     this.filteredDrones = new Observable<Drone[]>(observer => {
-      observer.next(this.drones.filter(i => this.filterValue(i.id)));
+      observer.next(this.drones.filter(i => this.filterValue(i)));
     })
 
   }
 
-  changeSelectedDrone(id : number){
-    //TODO : Link up with other portions to indicate a change in selection
+  changeSelectedDrone(newSelectedID: string) {
+    this.droneService.setCurrentlySelectedDrone(newSelectedID);
   }
 
 }

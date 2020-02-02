@@ -8,26 +8,28 @@
     <mat-grid-list [cols]="6" rowHeight="66.1">
       <mat-grid-tile [colspan]="6" [rowspan]="6">
 
-        <app-zone-creation-menu style="width : 95%;height: 95%"></app-zone-creation-menu>
+        <app-info-screen></app-info-screen>
 
       </mat-grid-tile>
 
       <mat-grid-tile [colspan]="6" [rowspan]="7">
         <mat-card class="dashboard-card">
           Custom Search
-            <app-zone-search style="width: 100%; height: 95%"></app-zone-search>
+          <mat-tab-group>
+            <mat-tab label="Drone Search"><app-drone-search></app-drone-search></mat-tab>
+            <mat-tab label="Restricted Zone Search"><app-zone-search></app-zone-search></mat-tab>
+          </mat-tab-group>
         </mat-card>
       </mat-grid-tile>
     </mat-grid-list>
-
-
-
   </mat-drawer>
 
   <mat-drawer-content class="mainbar-content">
-    <div #staticMapContainer id="map_zone_creation"></div>
+    <app-map></app-map>
   </mat-drawer-content>
 
 </mat-drawer-container>
 
 </body>
+
+
