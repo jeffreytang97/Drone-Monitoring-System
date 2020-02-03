@@ -1,58 +1,56 @@
 
 <mat-card class="dashboard-card">
   <mat-card-header class="header-content">
-    <mat-card-title>Drone Info Display</mat-card-title>
-    <mat-card-subtitle>Manufacturer Name</mat-card-subtitle>
+    <mat-card-title>Drone Selected:</mat-card-title>
+    <mat-card-subtitle>{{drone_id}}</mat-card-subtitle>
   </mat-card-header>
   <mat-divider></mat-divider>
   <mat-card-content>
-    <div class="row">
-      <div class="column-left">
-        <mat-card>Drone ID:</mat-card>
-      </div>
-      <div class="column-right">
-        <mat-card>{{drone_id}}</mat-card>
-      </div>
-    </div>
-    <div class="row">
-      <div class="column-left">
-        <mat-card>Heading Angle:</mat-card>
-      </div>
-      <div class="column-right">
-        <mat-card>{{heading}}°</mat-card>
-      </div>
-    </div>
-    <div class="row">
-      <div class="column-left">
-        <mat-card>Latitude:</mat-card>
-      </div>
-      <div class="column-right">
-        <mat-card>{{latitude}}</mat-card>
-      </div>
+    <div *ngIf="isDroneSelected()">
       <div class="row">
         <div class="column-left">
-          <mat-card>Longitude:</mat-card>
+          <mat-card>Heading Angle:</mat-card>
         </div>
         <div class="column-right">
-          <mat-card>{{longitude}}</mat-card>
+          <mat-card>{{heading}}°</mat-card>
         </div>
       </div>
       <div class="row">
         <div class="column-left">
-          <mat-card>Ground Speed:</mat-card>
+          <mat-card>Latitude:</mat-card>
         </div>
         <div class="column-right">
-          <mat-card>(N/A) km/h</mat-card>
+          <mat-card>{{latitude}}</mat-card>
         </div>
-      </div>
-      <div class="row">
-        <div class="column-left">
-          <mat-card>Altitude:</mat-card>
+        <div class="row">
+          <div class="column-left">
+            <mat-card>Longitude:</mat-card>
+          </div>
+          <div class="column-right">
+            <mat-card>{{longitude}}</mat-card>
+          </div>
         </div>
-        <div class="column-right">
-          <mat-card>(N/A) m</mat-card>
+        <!--div class="row">
+          <div class="column-left">
+            <mat-card>Ground Speed:</mat-card>
+          </div>
+          <div class="column-right">
+            <mat-card>(N/A) km/h</mat-card>
+          </div>
         </div>
+        <div class="row">
+          <div class="column-left">
+            <mat-card>Altitude:</mat-card>
+          </div>
+          <div class="column-right">
+            <mat-card>(N/A) m</mat-card>
+          </div>
+        </div-->
       </div>
     </div>
+    <div *ngIf="!isDroneSelected()" class="no-drone-content">
+      <mat-card-subtitle>No Drone has been selected at the moment</mat-card-subtitle>
+    </div>
+
   </mat-card-content>
 </mat-card>

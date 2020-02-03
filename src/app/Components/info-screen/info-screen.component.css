@@ -2,6 +2,7 @@
 .dashboard-card{
   text-align: left;
   min-width: 330px;
+  min-height: 375px;
 }
 
 .myGridList{
@@ -21,7 +22,7 @@
   width: 55%;
   height: 20px;
   padding-right: 15px;
-  padding-top: 15px;
+  padding-top: 30px;
   padding-left: 0px;
 }
 /* Float columns side by side */
@@ -31,5 +32,11 @@
   width: 40%;
   height: 30px;
   padding-bottom: 13px;
-  padding-top: 13px;
+  padding-top: 30px;
+}
+
+.no-drone-content{
+  padding-top: 160px;
+  padding-left: 27px;
+  font-style: italic;
 }
