@@ -45,11 +45,12 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.drones = [];
+    this.marker_list = [];
 
     //On initialization, set the value of the drones to what is in the service and update the markers on the map
     this.createMarkers();
-    this.marker_list = [];
     this.subscribeToCurrentlySelectedDrone();
+    this.changeSelectedDrone(null);
   }
 
   private subscribeToCurrentlySelectedDrone(){
@@ -73,14 +74,13 @@ export class MapComponent implements OnInit {
       } else{
         for (var j = 0; j < this.marker_list.length; j++) {
           this.marker_list[j].setMap(null);
-          //this.marker_list[j].setPosition(this.drone_coordinate);
-          //this.marker_list[j].setMap(this.map);
         }
         // re-initialize the list everytime a drone location is updated
         this.marker_list = [];
       }
 
       for (var i = 0; i < this.drones.length; i++) {
+
         this.drone_id = this.drones[i].id;
         this.latitude = this.drones[i].latitude;
         this.longitude = this.drones[i].longitude;
@@ -88,19 +88,41 @@ export class MapComponent implements OnInit {
         this.drone_coordinate = new google.maps.LatLng(this.latitude, this.longitude);
 
         var drone_marker_icon = "https://img.icons8.com/ios-glyphs/40/FF3434/drone.png";
-
         var marker = new google.maps.Marker({
           position: this.drone_coordinate,
           map: this.map,
           title: this.drone_id,
           icon: drone_marker_icon,
           });
-        marker.setOptions({'opacity': 100})
         marker.setMap(this.map);
+
         // Store every marker in a list
         this.marker_list.push(marker);
       }
+      this.onClickMarkers();
     });
+  }
+
+  onClickMarkers(){
+    for (var j = 0; j < this.marker_list.length; j++){
+      var current_marker = this.marker_list[j];
+      var that = this;
+      //Attach click event to the marker.
+      (function (current_marker) {
+          google.maps.event.addListener(current_marker, "click", function(e) {
+              //console.log(current_marker.getTitle());
+              this.map.setZoom(8);
+              this.map.setCenter(current_marker.getPosition());
+              that.changeSelectedDrone(current_marker.getTitle());
+          });
+      })(current_marker);
+      this.marker_list[j] = current_marker;
+    }
+  }
+
+  //Function to update the currently selected drone
+  changeSelectedDrone(newSelectedID: string) {
+    this.droneService.setCurrentlySelectedDrone(newSelectedID);
   }
 
   ngAfterViewInit() {
@@ -111,11 +133,6 @@ export class MapComponent implements OnInit {
     this.map = new google.maps.Map(this.gmap.nativeElement,
     this.mapOptions);
     this.createMarkers();
-  }
-
-  //Function to update the currently selected drone
-  changeSelectedDrone(newSelectedID: string) {
-    this.droneService.setCurrentlySelectedDrone(newSelectedID);
   }
 
 }

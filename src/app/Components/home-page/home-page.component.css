@@ -1,16 +1,21 @@
-.mainbar-content{
-  height: 872px;
-}
+/*.mainbar-content{
+  height: 800px;
+}*/
 
 .dashboard-card {
-  height: 90%
+  height: 90%;
+  width: 100%;
 }
 
 .sidebar-content{
-  height: 872px;
+  height: 100%;
   width: 375px;
 }
 
 .mat-grid-tile {
   background-color: rgb(241, 241, 242);
+}
+
+.myGridList{
+  height: 100%;
 }
