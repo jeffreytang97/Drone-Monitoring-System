@@ -61,7 +61,15 @@ export class InfoScreenComponent implements OnInit {
 
       Object.values(drones).forEach(value => { //Objects from the service need to be transformed to be used
         this.drones.push(value);
+
+        if(value.id == this.currentlySelectedDroneID){
+          this.latitude = value.latitude;
+          this.longitude = value.longitude;
+          this.heading = value.heading;
+        }
+
       });
+
     });
   }
 
