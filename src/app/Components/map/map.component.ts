@@ -4,6 +4,7 @@ import {Drone} from "../../models/drone";
 import {Observable} from "rxjs";
 import * as firebase from "firebase";
 import {AngularFireDatabase} from 'angularfire2/database';
+import LatLng = google.maps.LatLng;
 
 @Component({
   selector: 'app-map',
@@ -56,7 +57,18 @@ export class MapComponent implements OnInit {
   private subscribeToCurrentlySelectedDrone(){
     this.droneService.getCurrentlySelectedDrone().subscribe(drone =>{
       if(drone != null){
-        this.currentlySelectedDroneID = Object.values(drone)[0];
+        this.currentlySelectedDroneID = Object.values(drone).join("");
+        if(this.map != null){
+
+          for(let i = 0; i < this.drones.length; i++){
+            if(this.drones[i].id === this.currentlySelectedDroneID){
+              this.map.setCenter(new google.maps.LatLng(this.drones[i].latitude, this.drones[i].longitude));
+              this.map.setZoom(15);
+              break;
+            }
+          }
+
+        }
       }
     })
   }
@@ -111,7 +123,7 @@ export class MapComponent implements OnInit {
       (function (current_marker) {
           google.maps.event.addListener(current_marker, "click", function(e) {
               //console.log(current_marker.getTitle());
-              this.map.setZoom(8);
+              this.map.setZoom(15);
               this.map.setCenter(current_marker.getPosition());
               that.changeSelectedDrone(current_marker.getTitle());
           });
