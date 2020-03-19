@@ -16,9 +16,9 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   zones: RestrictedZone[];
   editedZone: RestrictedZone;
-  observableEditedZone : Observable<RestrictedZone[]>;
+  observableEditedZone: Observable<RestrictedZone[]>;
 
-  mapPoint : LatLong[];
+  mapPoint: LatLong[];
 
   zoneName: string;
 
@@ -32,7 +32,7 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   ngOnInit() {
 
-    this.editedZone = new RestrictedZone("", [], false);
+    this.editedZone = new RestrictedZone("", [], null);
 
     this.subscribeToZones();
     this.subscribeToPoints();
@@ -68,23 +68,23 @@ export class ZoneCreationMenuComponent implements OnInit {
   }
 
   addPoint(latitude: number, longitude: number) {
-    if(this.editedZone.polygonBased) {
-      this.editedZone.polygonPoints.push(new LatLong(latitude, longitude));
-      this.updateInformationDisplayed();
-    }
-    else {
-      if(this.circleSelection == 0){
-        this.editedZone.polygonPoints[this.circleSelection] = new LatLong(latitude, longitude);
-      }
-      else{
-        if(this.editedZone.polygonPoints[0] !== null && this.editedZone.polygonPoints[0].latitude !== null &&
-          this.editedZone.polygonPoints[0].longitude !== null) {
-          let distance = Math.sqrt(Math.pow(this.editedZone.polygonPoints[0].latitude-latitude,2) + Math.pow(this.editedZone.polygonPoints[0].longitude-longitude,2));
-          this.editedZone.polygonPoints[this.circleSelection] = new LatLong(distance,distance);
+    if (this.editedZone.polygonBased != null) {
+      if (this.editedZone.polygonBased) {
+        this.editedZone.polygonPoints.push(new LatLong(latitude, longitude));
+        this.updateInformationDisplayed();
+      } else {
+        if (this.circleSelection == 0) {
+          this.editedZone.polygonPoints[this.circleSelection] = new LatLong(latitude, longitude);
+        } else {
+          if (this.editedZone.polygonPoints[0] !== null && this.editedZone.polygonPoints[0].latitude !== null &&
+            this.editedZone.polygonPoints[0].longitude !== null) {
+            let distance = Math.sqrt(Math.pow(this.editedZone.polygonPoints[0].latitude - latitude, 2) + Math.pow(this.editedZone.polygonPoints[0].longitude - longitude, 2));
+            this.editedZone.polygonPoints[this.circleSelection] = new LatLong(distance, distance);
+          }
         }
-      }
 
-      this.updateInformationDisplayed();
+        this.updateInformationDisplayed();
+      }
     }
   }
 
@@ -95,21 +95,20 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   updateInformationDisplayed() {
 
-      this.displayedPoints = new Observable<LatLong[]>(observer => {
-        observer.next(this.editedZone.polygonPoints);
-      });
+    this.displayedPoints = new Observable<LatLong[]>(observer => {
+      observer.next(this.editedZone.polygonPoints);
+    });
 
-      this.observableEditedZone = new Observable<RestrictedZone[]>(observer => {
-        observer.next([this.editedZone]);
-      });
+    this.observableEditedZone = new Observable<RestrictedZone[]>(observer => {
+      observer.next([this.editedZone]);
+    });
 
-    if(!this.isZoneEmpty()){
-      if(this.editedZone.polygonBased){
+    if (!this.isZoneEmpty()) {
+      if (this.editedZone.polygonBased) {
         let sentPoints = this.editedZone;
         sentPoints.polygonPoints.push(this.editedZone.polygonPoints[0]);
         this.restrictedZoneCreationService.setShapes([sentPoints]);
-      }
-      else {
+      } else {
         this.restrictedZoneCreationService.setShapes([this.editedZone]);
       }
 
@@ -120,6 +119,7 @@ export class ZoneCreationMenuComponent implements OnInit {
   clearEditedZone() {
     this.editedZone.clearZone();
     this.zoneName = "";
+    this.updateInformationDisplayed();
   }
 
   saveEditedZone() {
@@ -132,13 +132,13 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   changeCurrentlySelectedMode(mode: string) {
     this.editedZone.polygonBased = mode !== "Circle";
-    this.clearEditedZone();
+    this.editedZone.clearZone();
   }
 
   isZoneEmpty() {
     if (this.editedZone.polygonBased) {
       return this.editedZone.polygonPoints.length < 2;
-    } else{
+    } else {
       return this.editedZone.polygonPoints.length != 2;
     }
   }
@@ -155,11 +155,10 @@ export class ZoneCreationMenuComponent implements OnInit {
     this.circleSelection = number;
   }
 
-  modifyPoint(index: number, latOrLong:number ,value: string) {
-    if(latOrLong == 0){
+  modifyPoint(index: number, latOrLong: number, value: string) {
+    if (latOrLong == 0) {
       this.editedZone.polygonPoints[index].setLatitude(Number(value));
-    }
-    else{
+    } else {
       this.editedZone.polygonPoints[index].setLongitude(Number(value));
     }
     this.updateInformationDisplayed();

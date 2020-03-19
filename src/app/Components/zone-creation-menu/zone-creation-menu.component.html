@@ -33,14 +33,14 @@ Circle : show Center and Radius
           <mat-button-toggle (change)="setCircleSelection(0)">
             Center of circle:
             <div *ngIf="circle.getLatitude(0) !== null && circle.getLongitude(0) !== null">
-            {{circle.getLatitude(0)}}, {{circle.getLongitude(0)}}
+              {{circle.getLatitude(0)}}, {{circle.getLongitude(0)}}
             </div>
           </mat-button-toggle>
 
           <mat-button-toggle (change)="setCircleSelection(1)">
             Circle Radius:
             <div *ngIf="circle.getLatitude(1) !== null && circle.getLongitude(1) !== null">
-            {{circle.getLatitude(1)}}
+              {{circle.getLatitude(1)}}
             </div>
           </mat-button-toggle>
 
@@ -70,7 +70,7 @@ Circle : show Center and Radius
               <input #long matInput (change)="modifyPoint(i, 1, long.value)" [value]="geoLocation.longitude.toString()">
             </mat-form-field>
           </div>
-          <button mat-button (click)="removePoint(i)" ><i class="material-icons">clear</i></button>
+          <button mat-button (click)="removePoint(i)"><i class="material-icons">clear</i></button>
         </div>
       </mat-list-item>
     </div>
@@ -78,7 +78,7 @@ Circle : show Center and Radius
 
 
   <div class="centerElements">
-    <button class="zone-form-button" mat-raised-button (click)="clearEditedZone();zoneNameInput.value='';" [disabled]="isZoneEmpty()">Clear
+    <button class="zone-form-button" mat-raised-button (click)="clearEditedZone();zoneNameInput.value='';">Clear
     </button>
     <button class="zone-form-button" mat-raised-button (click)="saveEditedZone()" [disabled]="isSaveDisabled()">Save
     </button>

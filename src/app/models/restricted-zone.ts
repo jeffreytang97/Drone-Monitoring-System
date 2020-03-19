@@ -6,10 +6,10 @@ export class RestrictedZone {
   public polygonPoints : LatLong[];
   public polygonBased : boolean;
 
- constructor(id: string, polygonPoints : LatLong[], geoLocationBased : boolean){
+ constructor(id: string, polygonPoints : LatLong[], polygonBased : boolean){
     this.id = id;
     this.polygonPoints = polygonPoints;
-    this.polygonBased = geoLocationBased;
+    this.polygonBased = polygonBased;
   }
 
   clearZone(){
