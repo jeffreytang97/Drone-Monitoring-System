@@ -14,4 +14,12 @@ export class LatLong {
   get longitude(): number {
     return this._longitude;
   }
+
+  setLatitude(latitude : number){
+    this._latitude = latitude;
+  }
+
+  setLongitude(longitude : number){
+    this._longitude = longitude;
+  }
 }
