@@ -1,4 +1,4 @@
-export class GeoLocation {
+export class LatLong {
   private _latitude: number;
   private _longitude: number;
 
@@ -6,7 +6,6 @@ export class GeoLocation {
     this._latitude = latitude;
     this._longitude = longitude;
   }
-
 
   get latitude(): number {
     return this._latitude;

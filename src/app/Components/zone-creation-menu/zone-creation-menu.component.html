@@ -3,66 +3,93 @@
   Zone Creation
 
   <div>
-  <mat-form-field class="ZoneNameField">
-    <input #zoneName (change)="updateZoneName(zoneName.value)" matInput placeholder="Zone Name">
-  </mat-form-field>
+    <mat-form-field class="ZoneNameField">
+      <input #zoneName (change)="updateZoneName(zoneName.value)" matInput placeholder="Zone Name">
+    </mat-form-field>
   </div>
 
   <div style="text-align: center">
-  <mat-button-toggle-group >
-    <mat-button-toggle class="zone-form-button" (change)="changeCurrentlySelectedMode('Square')"><i class="material-icons">crop_square</i>
-    </mat-button-toggle>
-    <mat-button-toggle class="zone-form-button" (change)="changeCurrentlySelectedMode('Circle')"><i class="material-icons">panorama_fish_eye</i>
-    </mat-button-toggle>
-    <mat-button-toggle class="zone-form-button" (change)="changeCurrentlySelectedMode('Freeform')"><i class="material-icons">fullscreen</i>
-    </mat-button-toggle>
-  </mat-button-toggle-group>
+    <mat-button-toggle-group>
+      <mat-button-toggle class="zone-form-button" (change)="changeCurrentlySelectedMode('Text')"><i
+        class="material-icons">text_format</i>
+      </mat-button-toggle>
+      <mat-button-toggle class="zone-form-button" (change)="changeCurrentlySelectedMode('Circle')"><i
+        class="material-icons">panorama_fish_eye</i>
+      </mat-button-toggle>
+      <mat-button-toggle class="zone-form-button" (change)="changeCurrentlySelectedMode('Freeform')"><i
+        class="material-icons">fullscreen</i>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
 
   <!--
+  Text : Shows an editable list of points
+  -->
 
- Square : Show list of points
+  <div *ngIf="this.currentlySelectedMode === 'Text'">
+    <div>
+      Add and fill in points below to create a zone
+      <button mat-button (change)="addEntry()"><i class="material-icons">add_circle</i></button>
+    </div>
+    <div>
+      <mat-list-item>
+        <div>
 
+
+
+        <button mat-button (click)="clearVertice(geoLocation)" ><i class="material-icons">clear</i></button>
+        </div>
+      </mat-list-item>
+    </div>
+  </div>
+
+  <!--
+Circle : show Center and Radius
+-->
+  <div *ngIf="this.currentlySelectedMode === 'Circle'">
+    <div>
+      Click circle on the map to create a zone
+    </div>
+    <div>
+      <mat-list-item *ngFor="let circle of displayedCircle | async">
+        <mat-button-toggle-group>
+          <mat-button-toggle (change)="selectCircleCenter()">
+            Center of circle: {{circle.geoLocation.latitude}}, {{circle.geoLocation.longitude}}
+          </mat-button-toggle>
+          <mat-button-toggle (change)="selectCircleRadius()">
+            Circle Radius: {{circle.radius}}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </mat-list-item>
+    </div>
+  </div>
+
+  <!--
  Polygon : show list of points
  -->
-  <div *ngIf="this.currentlySelectedMode === 'Square' || this.currentlySelectedMode === 'Freeform'">
-    <div *ngIf="isZoneEmpty()">
-      Enter points on the map to create a zone
-    </div>
-    <div *ngIf="!isZoneEmpty()">
-      Zone Points
+  <div *ngIf="this.currentlySelectedMode === 'Freeform'">
+    <div>
+      Click points on the map to create a zone
     </div>
 
-    <mat-list-item *ngFor="let geoLocation of displayedPoints | async">
-      <h3>
-        {{geoLocation.latitude}},{{geoLocation.longitude}}
-      </h3>
-    </mat-list-item>
-  </div>
-
-  <!--
- Circle : show Center and Radius
-  -->
-  <div *ngIf="this.currentlySelectedMode === 'Circle'">
-    <div *ngIf="isZoneEmpty()">
-      Enter circle on the map to create a zone
+    <div>
+      <mat-list-item *ngFor="let geoLocation of displayedPoints | async">
+        <div>
+          <h3>
+            {{geoLocation.latitude}},{{geoLocation.longitude}}
+          </h3>
+          <button mat-button (click)="clearVertice(geoLocation)" ><i class="material-icons">clear</i></button>
+        </div>
+      </mat-list-item>
     </div>
-    <div *ngIf="!isZoneEmpty()">
-      Zone Circle
-    </div>
-
-    <mat-list-item *ngFor="let circle of displayedCircle | async">
-      <h3>
-        Center of circle: {{circle.geoLocation.latitude}}, {{circle.geoLocation.longitude}}
-        Circle Radius: {{circle.radius}}
-      </h3>
-    </mat-list-item>
   </div>
 
 
   <div class="centerElements">
-    <button class="zone-form-button" mat-raised-button (click)="clearEditedZone()" [disabled]="isZoneEmpty()">Clear</button>
-    <button class="zone-form-button" mat-raised-button (click)="saveEditedZone()" [disabled]="isSaveDisabled()" >Save</button>
+    <button class="zone-form-button" mat-raised-button (click)="clearEditedZone()" [disabled]="isZoneEmpty()">Clear
+    </button>
+    <button class="zone-form-button" mat-raised-button (click)="saveEditedZone()" [disabled]="isSaveDisabled()">Save
+    </button>
   </div>
 
 </mat-card>

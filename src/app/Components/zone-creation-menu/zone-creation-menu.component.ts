@@ -3,7 +3,7 @@ import {RestrictedZone} from "../../models/restricted-zone";
 import {Observable} from "rxjs";
 import {RestrictedZoneService} from "../../Services/restricted-zone/restricted-zone.service";
 import {DatabaseInteractionService} from "../../Services/database-interaction/database-interaction.service";
-import {GeoLocation} from "../../models/GeoLocation";
+import {LatLong} from "../../models/LatLong";
 import {Circle} from "../../models/Circle";
 
 @Component({
@@ -20,7 +20,7 @@ export class ZoneCreationMenuComponent implements OnInit {
   zoneName : string;
 
   //List of points for Square and Freeform views
-  displayedPoints : Observable<GeoLocation[]>;
+  displayedPoints : Observable<LatLong[]>;
 
   //Circle object displayed
   displayedCircle : Observable<Circle[]>;
@@ -52,28 +52,27 @@ export class ZoneCreationMenuComponent implements OnInit {
   }
 
   addPoint(latitude : number, longitude : number){
-    this.editedZone.geoLocations.push(new GeoLocation(latitude, longitude));
+    this.editedZone.polygonPoints.push(new LatLong(latitude, longitude));
     this.updateInformationDisplayed();
   }
 
   removePoint(latitude : number, longitude : number){
-    let newLocation = new GeoLocation(latitude, longitude);
+    let newLocation = new LatLong(latitude, longitude);
 
-    this.editedZone.geoLocations.splice(this.editedZone.geoLocations.indexOf(newLocation), 1);
+    this.editedZone.polygonPoints.splice(this.editedZone.polygonPoints.indexOf(newLocation), 1);
     this.updateInformationDisplayed();
   }
 
   updateCircle(latitude : number, longitude : number, radius : number) {
-    let newCircle = new Circle(new GeoLocation(latitude, longitude), radius);
 
-    this.editedZone.circle = newCircle;
+    this.editedZone.circle = new Circle(new LatLong(latitude, longitude), radius);
     this.updateInformationDisplayed();
   }
 
   updateInformationDisplayed(){
     if(this.currentlySelectedMode !== "Circle"){
-      this.displayedPoints = new Observable<GeoLocation[]>(observer => {
-        observer.next(this.editedZone.geoLocations);
+      this.displayedPoints = new Observable<LatLong[]>(observer => {
+        observer.next(this.editedZone.polygonPoints);
       });
     }
     else {
@@ -98,12 +97,12 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   changeCurrentlySelectedMode(mode : string){
     this.currentlySelectedMode = mode;
-    this.editedZone.geoLocationBased = mode !== "Circle";
+    this.editedZone.polygonBased = mode !== "Circle";
   }
 
   isZoneEmpty() {
-    if(this.editedZone.geoLocationBased){
-      return this.editedZone.geoLocations.length === 0;
+    if(this.editedZone.polygonBased){
+      return this.editedZone.polygonPoints.length === 0;
     } else {
       return this.editedZone.circle._geoLocation === null && this.editedZone.circle._radius === null;
     }

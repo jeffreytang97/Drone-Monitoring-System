@@ -1,24 +1,32 @@
 import {Circle} from "./Circle";
-import {GeoLocation} from "./GeoLocation";
+import {LatLong} from "./LatLong";
 
 export class RestrictedZone {
 
   public id : string;
-  public geoLocations : GeoLocation[];
+  public polygonPoints : LatLong[];
   public circle : Circle;
-  public geoLocationBased : boolean;
+  public polygonBased : boolean;
 
- constructor(id: string, geoLocation : GeoLocation[], circle: Circle, geoLocationBased : boolean){
+ constructor(id: string, geoLocation : LatLong[], circle: Circle, geoLocationBased : boolean){
     this.id = id;
-    this.geoLocations = geoLocation;
+    this.polygonPoints = geoLocation;
     this.circle = circle;
-    this.geoLocationBased = geoLocationBased;
+    this.polygonBased = geoLocationBased;
   }
 
   clearZone(){
    this.id = "";
-   this.geoLocations = [];
+   this.polygonPoints = [];
    this.circle = new Circle(null, null);
+  }
+
+  getLatitude(index: number){
+    return this.polygonPoints[index].latitude;
+  }
+
+  getLongitude(index: number){
+    return this.polygonPoints[index].longitude;
   }
 
 }
