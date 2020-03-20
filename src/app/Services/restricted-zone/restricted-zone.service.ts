@@ -91,13 +91,13 @@ export class RestrictedZoneService {
     let latitudes = "";
     let longitudes = "";
 
-    for(let i = 0; i < zone.geoLocations.length; i++){
-      if(i != zone.geoLocations.length-1){
-        latitudes += zone.geoLocations[i].latitude + ",";
-        longitudes += zone.geoLocations[i].longitude + ",";
+    for(let i = 0; i < zone.polygonPoints.length; i++){
+      if(i != zone.polygonPoints.length-1){
+        latitudes += zone.polygonPoints[i].latitude + ",";
+        longitudes += zone.polygonPoints[i].longitude + ",";
       } else {
-        latitudes += zone.geoLocations[i].latitude;
-        longitudes += zone.geoLocations[i].longitude;
+        latitudes += zone.polygonPoints[i].latitude;
+        longitudes += zone.polygonPoints[i].longitude;
       }
 
     }
