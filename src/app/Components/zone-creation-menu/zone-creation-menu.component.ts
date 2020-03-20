@@ -83,6 +83,8 @@ export class ZoneCreationMenuComponent implements OnInit {
           }
         }
 
+        console.log("Addpoint " + latitude);
+
         this.updateInformationDisplayed();
       }
     }

@@ -40,7 +40,6 @@ export class ZoneCreationComponent implements OnInit {
 
     ngAfterViewInit() {
         this.subscribeToZones();
-        this.mapInitializer();
         this.sendCoordinatePoints();
     }
 
@@ -53,6 +52,8 @@ export class ZoneCreationComponent implements OnInit {
         Object.values(zones).forEach(value => { //Objects from the service need to be transformed to be used
           this.restricted_zones.push(value);
         });
+
+        this.mapInitializer();
       });
     }
 
@@ -83,6 +84,7 @@ export class ZoneCreationComponent implements OnInit {
         var size_of_array = this.restricted_zones[zone].polygonPoints.length;
 
         if(this.restricted_zones[zone].polygonBased){
+
           // Add the polygon zone to the map.
           var polygonCoords = [];
           for (var i = 0; i < size_of_array; i++){
@@ -98,8 +100,10 @@ export class ZoneCreationComponent implements OnInit {
             strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: '#FF0000',
-            fillOpacity: 0.35
+            fillOpacity: 0.35,
+            map: this.map,
           });
+
         }
         else{
           // Add the circle zone to the map.
@@ -122,6 +126,9 @@ export class ZoneCreationComponent implements OnInit {
           });
         }
     }
+
+
+
   }
 
   sendCoordinatePoints(){
