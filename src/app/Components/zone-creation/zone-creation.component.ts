@@ -40,7 +40,6 @@ export class ZoneCreationComponent implements OnInit {
 
     ngAfterViewInit() {
         this.subscribeToZones();
-        this.mapInitializer();
         this.sendCoordinatePoints();
     }
 
@@ -53,33 +52,14 @@ export class ZoneCreationComponent implements OnInit {
         Object.values(zones).forEach(value => { //Objects from the service need to be transformed to be used
           this.restricted_zones.push(value);
         });
+        this.mapInitializer();
       });
     }
 
     mapInitializer() {
       this.map = new google.maps.Map(this.zone_map.nativeElement, this.mapOptions);
 
-      // This is just an example
-      /*var citymap = {
-            chicago: {
-              center: {lat: 41.878, lng: -87.629},
-              population: 2714856
-            },
-            newyork: {
-              center: {lat: 40.714, lng: -74.005},
-              population: 8405837
-            },
-            losangeles: {
-              center: {lat: 34.052, lng: -118.243},
-              population: 3857799
-            },
-            vancouver: {
-              center: {lat: 49.25, lng: -123.1},
-              population: 603502
-            }
-          };*/
       for (var zone in this.restricted_zones) {
-
         var size_of_array = this.restricted_zones[zone].polygonPoints.length;
 
         if(this.restricted_zones[zone].polygonBased){
@@ -92,13 +72,14 @@ export class ZoneCreationComponent implements OnInit {
           }
 
           // Construct the polygon.
-          var bermudaTriangle = new google.maps.Polygon({
+          var zonePolygon = new google.maps.Polygon({
             paths: polygonCoords,
             strokeColor: '#FF0000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: '#FF0000',
-            fillOpacity: 0.35
+            fillOpacity: 0.35,
+            map: this.map
           });
         }
         else{
