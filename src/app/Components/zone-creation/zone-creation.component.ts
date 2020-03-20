@@ -125,13 +125,15 @@ export class ZoneCreationComponent implements OnInit {
   }
 
   sendCoordinatePoints(){
+    let that = this;
     // When right-click on the map, it will return coordinates
     google.maps.event.addListener(this.map, "rightclick", function(event) {
         var lat = event.latLng.lat();
         var lng = event.latLng.lng();
-        this.restrictedZoneCreationService.setMapPoint(lat, lng);
+        that.restrictedZoneCreationService.setMapPoint(lat, lng);
         // populate yor box/field with lat, lng
         //alert("Lat=" + lat + "; Lng=" + lng);
     });
   }
+
 }
