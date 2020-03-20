@@ -71,15 +71,20 @@ export class ZoneCreationMenuComponent implements OnInit {
     if (this.editedZone.polygonBased != null) {
       if (this.editedZone.polygonBased) {
         this.editedZone.polygonPoints.push(new LatLong(latitude, longitude));
-        console.log("PUSHED : " + latitude + " ; " + longitude);
+        console.log("POLYGON PUSHED : " + latitude + " ; " + longitude);
         console.log(this.editedZone.polygonPoints.length);
       } else {
+
+        console.log("CIRCLE CHECK : " + latitude + " ; " + longitude);
+
         if (this.circleSelection == 0) {
           this.editedZone.polygonPoints[this.circleSelection] = new LatLong(latitude, longitude);
+
+          console.log("CIRCLE CENTER : " + latitude + " ; " + longitude);
+
         } else {
-          if (this.editedZone.polygonPoints[0] !== null && this.editedZone.polygonPoints[0].latitude !== null &&
-            this.editedZone.polygonPoints[0].longitude !== null) {
-            let distance = Math.sqrt(Math.pow(this.editedZone.polygonPoints[0].latitude - latitude, 2) + Math.pow(this.editedZone.polygonPoints[0].longitude - longitude, 2));
+          if (this.editedZone.polygonPoints[0] !== null) {
+            let distance = this.measure(this.editedZone.polygonPoints[0].latitude, this.editedZone.polygonPoints[0].longitude, latitude, longitude);
             this.editedZone.polygonPoints[this.circleSelection] = new LatLong(distance, distance);
           }
         }
@@ -156,4 +161,17 @@ export class ZoneCreationMenuComponent implements OnInit {
     }
     this.updateInformationDisplayed();
   }
+
+  measure(lat1, lon1, lat2, lon2){  // generally used geo measurement function
+    var R = 6378.137; // Radius of earth in KM
+    var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+    var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d * 1000; // meters
+  }
+
 }

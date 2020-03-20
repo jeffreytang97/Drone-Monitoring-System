@@ -32,8 +32,8 @@ Circle : show Center and Radius
 
           <mat-button-toggle (change)="setCircleSelection(0)">
             Center of circle:
-            <div *ngIf="circle !== null && circle.polygonPoints.length > 0">
-              <div *ngIf="circle.getLatitude(0) !== null && circle.getLongitude(0) !== null">
+            <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
+              <div *ngIf="circle.polygonPoints[0] !== null">
                 {{circle.getLatitude(0)}}, {{circle.getLongitude(0)}}
               </div>
             </div>
@@ -41,8 +41,8 @@ Circle : show Center and Radius
 
           <mat-button-toggle (change)="setCircleSelection(1)">
             Circle Radius:
-            <div *ngIf="circle !== null && circle.polygonPoints.length > 1">
-              <div *ngIf="circle.getLatitude(1) !== null && circle.getLongitude(1) !== null">
+            <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
+              <div *ngIf="circle.polygonPoints[1] !== null">
                 {{circle.getLatitude(1)}}
               </div>
             </div>
@@ -62,7 +62,7 @@ Circle : show Center and Radius
     </div>
 
     <div>
-      <cdk-virtual-scroll-viewport itemSize="50">
+      <cdk-virtual-scroll-viewport itemSize="100">
         <mat-list-item *cdkVirtualFor="let geoLocation of (displayedPoints | async); let i = index;">
           <div>
             <div>
