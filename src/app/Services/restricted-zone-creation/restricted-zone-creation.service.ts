@@ -13,11 +13,11 @@ export class RestrictedZoneCreationService {
   observableShape : BehaviorSubject<RestrictedZone[]>;
 
   //Point to be added to the restricted zone menu from map
-  private mapPoint : LatLong;
-  observableMapPoint : BehaviorSubject<LatLong>;
+  private mapPoint : LatLong[];
+  observableMapPoint : BehaviorSubject<LatLong[]>;
 
   setMapPoint(latitude : number, longitude : number){
-    this.mapPoint = new LatLong(latitude, longitude);
+    this.mapPoint = [new LatLong(latitude, longitude)];
     this.observableMapPoint.next(Object.assign({}, this.mapPoint));
   }
 
@@ -34,5 +34,12 @@ export class RestrictedZoneCreationService {
     return this.observableMapPoint.asObservable();
   }
 
-  constructor() { }
+  constructor() {
+    this.shapes = [];
+    this.observableShape = <BehaviorSubject<RestrictedZone[]>> new BehaviorSubject(this.shapes);
+
+    this.mapPoint = [new LatLong(0,0)];
+    this.observableMapPoint = <BehaviorSubject<LatLong[]>> new BehaviorSubject(this.mapPoint);
+
+  }
 }
