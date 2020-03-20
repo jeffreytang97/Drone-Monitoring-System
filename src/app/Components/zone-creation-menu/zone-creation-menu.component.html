@@ -32,15 +32,19 @@ Circle : show Center and Radius
 
           <mat-button-toggle (change)="setCircleSelection(0)">
             Center of circle:
-            <div *ngIf="circle.getLatitude(0) !== null && circle.getLongitude(0) !== null">
-              {{circle.getLatitude(0)}}, {{circle.getLongitude(0)}}
+            <div *ngIf="circle !== null && circle.polygonPoints.length > 0">
+              <div *ngIf="circle.getLatitude(0) !== null && circle.getLongitude(0) !== null">
+                {{circle.getLatitude(0)}}, {{circle.getLongitude(0)}}
+              </div>
             </div>
           </mat-button-toggle>
 
           <mat-button-toggle (change)="setCircleSelection(1)">
             Circle Radius:
-            <div *ngIf="circle.getLatitude(1) !== null && circle.getLongitude(1) !== null">
-              {{circle.getLatitude(1)}}
+            <div *ngIf="circle !== null && circle.polygonPoints.length > 1">
+              <div *ngIf="circle.getLatitude(1) !== null && circle.getLongitude(1) !== null">
+                {{circle.getLatitude(1)}}
+              </div>
             </div>
           </mat-button-toggle>
 
@@ -58,21 +62,24 @@ Circle : show Center and Radius
     </div>
 
     <div>
-      <mat-list-item *ngFor="let geoLocation of (displayedPoints | async); let i = index;">
-        <div>
+      <cdk-virtual-scroll-viewport itemSize="50">
+        <mat-list-item *cdkVirtualFor="let geoLocation of (displayedPoints | async); let i = index;">
           <div>
-            <mat-form-field>
-              <mat-label>Latitude</mat-label>
-              <input #lat matInput (change)="modifyPoint(i, 0 ,lat.value)" [value]="geoLocation.latitude.toString()">
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Longitude</mat-label>
-              <input #long matInput (change)="modifyPoint(i, 1, long.value)" [value]="geoLocation.longitude.toString()">
-            </mat-form-field>
+            <div>
+              <mat-form-field>
+                <mat-label>Latitude</mat-label>
+                <input #lat matInput (change)="modifyPoint(i, 0 ,lat.value)" [value]="geoLocation.latitude.toString()">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Longitude</mat-label>
+                <input #long matInput (change)="modifyPoint(i, 1, long.value)"
+                       [value]="geoLocation.longitude.toString()">
+              </mat-form-field>
+            </div>
+            <button mat-button (click)="removePoint(i)"><i class="material-icons">clear</i></button>
           </div>
-          <button mat-button (click)="removePoint(i)"><i class="material-icons">clear</i></button>
-        </div>
-      </mat-list-item>
+        </mat-list-item>
+      </cdk-virtual-scroll-viewport>
     </div>
   </div>
 

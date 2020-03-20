@@ -40,7 +40,7 @@ export class ZoneCreationComponent implements OnInit {
 
     ngAfterViewInit() {
         this.subscribeToZones();
-        this.sendCoordinatePoints();
+        // this.sendCoordinatePoints();
     }
 
    subscribeToZones() {
@@ -103,18 +103,41 @@ export class ZoneCreationComponent implements OnInit {
           });
         }
     }
+
+      this.sendCoordinatePoints();
+
   }
 
   sendCoordinatePoints(){
     let that = this;
     // When right-click on the map, it will return coordinates
     google.maps.event.addListener(this.map, "rightclick", function(event) {
+
+        console.log("SENDING POINT : " + event.latLng.lat() + " ; " + event.latLng.lng());
+
         var lat = event.latLng.lat();
         var lng = event.latLng.lng();
         that.restrictedZoneCreationService.setMapPoint(lat, lng);
         // populate yor box/field with lat, lng
         //alert("Lat=" + lat + "; Lng=" + lng);
     });
+
+    google.maps.event.addListener(this.map, "drag", function(event){
+      that.mapOptions = {
+        center: that.map.getCenter(),
+        zoom: that.map.getZoom(),
+      };
+    });
+
+
+
+    google.maps.event.addListener(this.map, "zoom_changed", function(event){
+      that.mapOptions = {
+        center: that.map.getCenter(),
+        zoom: that.map.getZoom(),
+      };
+    })
+
   }
 
 }

@@ -71,7 +71,8 @@ export class ZoneCreationMenuComponent implements OnInit {
     if (this.editedZone.polygonBased != null) {
       if (this.editedZone.polygonBased) {
         this.editedZone.polygonPoints.push(new LatLong(latitude, longitude));
-        this.updateInformationDisplayed();
+        console.log("PUSHED : " + latitude + " ; " + longitude);
+        console.log(this.editedZone.polygonPoints.length);
       } else {
         if (this.circleSelection == 0) {
           this.editedZone.polygonPoints[this.circleSelection] = new LatLong(latitude, longitude);
@@ -82,11 +83,10 @@ export class ZoneCreationMenuComponent implements OnInit {
             this.editedZone.polygonPoints[this.circleSelection] = new LatLong(distance, distance);
           }
         }
-
-        console.log("Addpoint " + latitude);
-
-        this.updateInformationDisplayed();
       }
+
+      this.updateInformationDisplayed();
+
     }
   }
 
@@ -105,16 +105,7 @@ export class ZoneCreationMenuComponent implements OnInit {
       observer.next([this.editedZone]);
     });
 
-    if (!this.isZoneEmpty()) {
-      if (this.editedZone.polygonBased) {
-        let sentPoints = this.editedZone;
-        sentPoints.polygonPoints.push(this.editedZone.polygonPoints[0]);
-        this.restrictedZoneCreationService.setShapes([sentPoints]);
-      } else {
-        this.restrictedZoneCreationService.setShapes([this.editedZone]);
-      }
-
-    }
+    this.restrictedZoneCreationService.setShapes([this.editedZone]);
 
   }
 
