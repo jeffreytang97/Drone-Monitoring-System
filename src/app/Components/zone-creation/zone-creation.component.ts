@@ -51,51 +51,56 @@ export class ZoneCreationComponent implements OnInit {
       Object.values(zones).forEach(value => { //Objects from the service need to be transformed to be used
         this.restricted_zones.push(value);
       });
+
       this.mapInitializer();
+
     });
   }
 
   mapInitializer() {
     this.map = new google.maps.Map(this.zone_map.nativeElement, this.mapOptions);
 
-    for (var zone in this.restricted_zones) {
-      var size_of_array = this.restricted_zones[zone].polygonPoints.length;
+    for (var zone of this.restricted_zones) {
 
-      if (this.restricted_zones[zone].polygonBased) {
-        // Add the polygon zone to the map.
-        var polygonCoords = [];
-        for (var i = 0; i < size_of_array; i++) {
-          var lat = this.restricted_zones[zone].getLatitude(i);
-          var lng = this.restricted_zones[zone].getLongitude(i);
-          polygonCoords.push({lat, lng});
-        }
+      var size_of_array = zone.polygonPoints.length;
 
-        // Construct the polygon.
-        var zonePolygon = new google.maps.Polygon({
-          paths: polygonCoords,
-          strokeColor: '#FF0000',
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: '#FF0000',
-          fillOpacity: 0.35,
-          map: this.map
-        });
-      } else {
-        // Add the circle zone to the map.
+      if(size_of_array > 0) {
 
-        var center_lat = 0;
-        var center_lng = 0;
+        if (zone.polygonBased) {
+          // Add the polygon zone to the map.
+          var polygonCoords = [];
+          for (var i = 0; i < size_of_array; i++) {
+            var lat = zone.getLatitude(i);
+            var lng = zone.getLongitude(i);
+            polygonCoords.push({lat, lng});
+          }
 
-        // For the radius, get the latitude or longitude of index 1. It is the same value
-        var circle_radius = 0;
+          // Construct the polygon.
+          var zonePolygon = new google.maps.Polygon({
+            paths: polygonCoords,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: this.map
+          });
+        } else {
+          // Add the circle zone to the map.
 
-        if (this.restricted_zones[zone].polygonPoints.length == 2) {
-          center_lat = this.restricted_zones[zone].getLatitude(0);
-          center_lng = this.restricted_zones[zone].getLongitude(0);
+          var center_lat = 0;
+          var center_lng = 0;
 
           // For the radius, get the latitude or longitude of index 1. It is the same value
-          circle_radius = this.restricted_zones[zone].getLatitude(1);
-        }
+          var circle_radius = 0;
+
+          if (zone.polygonPoints.length == 2) {
+            center_lat = zone.getLatitude(0);
+            center_lng = zone.getLongitude(0);
+
+            // For the radius, get the latitude or longitude of index 1. It is the same value
+            circle_radius = zone.getLatitude(1);
+          }
           console.log("LAT: " + center_lat);
           console.log("LNG: " + center_lng);
 
@@ -112,6 +117,7 @@ export class ZoneCreationComponent implements OnInit {
             radius: circle_radius,
           });
 
+        }
       }
     }
 
@@ -123,8 +129,6 @@ export class ZoneCreationComponent implements OnInit {
     let that = this;
     // When right-click on the map, it will return coordinates
     google.maps.event.addListener(this.map, "rightclick", function (event) {
-
-      console.log("SENDING POINT : " + event.latLng.lat() + " ; " + event.latLng.lng());
 
       var lat = event.latLng.lat();
       var lng = event.latLng.lng();

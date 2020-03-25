@@ -87,7 +87,7 @@ Circle : show Center and Radius
   <div class="centerElements">
     <button class="zone-form-button" mat-raised-button (click)="clearEditedZone();zoneNameInput.value='';">Clear
     </button>
-    <button class="zone-form-button" mat-raised-button (click)="saveEditedZone()" [disabled]="isSaveDisabled()">Save
+    <button class="zone-form-button" mat-raised-button (click)="saveEditedZone();zoneNameInput.value='';" [disabled]="isSaveDisabled()">Save
     </button>
   </div>
 

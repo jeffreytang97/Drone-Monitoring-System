@@ -20,8 +20,6 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   mapPoint: LatLong[];
 
-  zoneName: string;
-
   //List of points for Square and Freeform views
   displayedPoints: Observable<LatLong[]>;
 
@@ -32,11 +30,10 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   ngOnInit() {
 
-    this.editedZone = new RestrictedZone("", [], null);
+    this.editedZone = new RestrictedZone("", [], true, 0, new LatLong(0,0));
 
     this.subscribeToZones();
     this.subscribeToPoints();
-
   }
 
   subscribeToZones() {
@@ -49,6 +46,7 @@ export class ZoneCreationMenuComponent implements OnInit {
         this.zones.push(value);
       });
 
+      this.updateInformationDisplayed();
     });
   }
 
@@ -71,16 +69,9 @@ export class ZoneCreationMenuComponent implements OnInit {
     if (this.editedZone.polygonBased != null) {
       if (this.editedZone.polygonBased) {
         this.editedZone.polygonPoints.push(new LatLong(latitude, longitude));
-        console.log("POLYGON PUSHED : " + latitude + " ; " + longitude);
-        console.log(this.editedZone.polygonPoints.length);
       } else {
-
-        console.log("CIRCLE CHECK : " + latitude + " ; " + longitude);
-
         if (this.circleSelection == 0) {
           this.editedZone.polygonPoints[this.circleSelection] = new LatLong(latitude, longitude);
-
-          console.log("CIRCLE CENTER : " + latitude + " ; " + longitude);
 
         } else {
           if (this.editedZone.polygonPoints[0] !== null) {
@@ -110,13 +101,19 @@ export class ZoneCreationMenuComponent implements OnInit {
       observer.next([this.editedZone]);
     });
 
-    this.restrictedZoneCreationService.setShapes([this.editedZone]);
+
+    if(this.zones.length != 0){
+    //TODO: SETUP SYSTEM TO SELECT SPECIFIC ZONE TO DISPLAY OR NOT
+    let displayedZones = this.zones;
+    displayedZones.push(this.editedZone);
+
+      this.restrictedZoneCreationService.setShapes(displayedZones);
+    }
 
   }
 
   clearEditedZone() {
     this.editedZone.clearZone();
-    this.zoneName = "";
     this.updateInformationDisplayed();
   }
 
@@ -124,8 +121,13 @@ export class ZoneCreationMenuComponent implements OnInit {
     //TODO: uncomment this section when the section is 100% done
     //This opens access to writing in the DB
 
-    // this.databaseInteractionService.addNewZoneEntry(this.editedZone);
-    // this.clearEditedZone();
+    this.editedZone.calculateCenter();
+    this.editedZone.calculateRadius();
+
+    this.databaseInteractionService.addNewZoneEntry(this.editedZone);
+    this.clearEditedZone();
+
+    this.updateInformationDisplayed();
   }
 
   changeCurrentlySelectedMode(mode: string) {
@@ -142,11 +144,11 @@ export class ZoneCreationMenuComponent implements OnInit {
   }
 
   isSaveDisabled() {
-    return this.isZoneEmpty() || this.zoneName === null || this.zoneName === "";
+    return this.isZoneEmpty() || this.editedZone.id === null || this.editedZone.id === "";
   }
 
   updateZoneName(zoneName: string) {
-    this.zoneName = zoneName;
+    this.editedZone.id = zoneName;
   }
 
   setCircleSelection(number: number) {

@@ -12,6 +12,7 @@ export class DatabaseInteractionService {
   private restrictedZoneService: any;
 
   constructor(db : AngularFireDatabase) {
+
     this.zones = db.list('/Zone_data');
   }
 
