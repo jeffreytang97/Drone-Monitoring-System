@@ -9,11 +9,12 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatListModule} from "@angular/material/list";
 import {MatInputModule} from "@angular/material/input";
 import {ScrollingModule} from "@angular/cdk/scrolling";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 
 @NgModule({
   declarations: [ZoneCreationMenuComponent],
-  imports: [MatCardModule, MatButtonToggleModule, MatFormFieldModule, MatButtonModule, MatListModule, CommonModule, MatInputModule, ScrollingModule],
+    imports: [MatCardModule, MatButtonToggleModule, MatFormFieldModule, MatButtonModule, MatListModule, CommonModule, MatInputModule, ScrollingModule, MatGridListModule],
   exports: [MatCardModule, MatButtonToggleModule, MatFormFieldModule, MatButtonModule, MatListModule, CommonModule, ZoneCreationMenuComponent],
 })
 export class ZoneCreationMenuModule { }

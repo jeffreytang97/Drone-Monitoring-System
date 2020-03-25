@@ -95,7 +95,7 @@ export class ZoneCreationComponent implements OnInit {
               strokeOpacity: 0.8,
               strokeWeight: 2,
               fillColor: '#0042ff',
-              fillOpacity: 0.35,
+              fillOpacity: 0.10,
               map: this.map
             });
           }
@@ -135,7 +135,7 @@ export class ZoneCreationComponent implements OnInit {
               strokeOpacity: 0.8,
               strokeWeight: 2,
               fillColor: '#0042ff',
-              fillOpacity: 0.35,
+              fillOpacity: 0.10,
               map: this.map,
               center: {lat: center_lat, lng: center_lng},
               radius: circle_radius,

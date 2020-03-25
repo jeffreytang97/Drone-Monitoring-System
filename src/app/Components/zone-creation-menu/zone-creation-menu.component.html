@@ -23,29 +23,31 @@
 Circle : show Center and Radius
 -->
   <div *ngIf="!this.editedZone.polygonBased">
-    <div style="padding: 20px;">
+    <div style="padding-top: 20px; padding-bottom: 20px;">
       Click circle on the map to create a zone
     </div>
-    <div>
+    <div style="padding-bottom: 20px">
       <mat-list-item *ngFor="let circle of observableEditedZone | async">
 
-          <button [ngClass]="(circleSelection !== 0) ? 'circleSelectionButton' : 'circleSelectionButtonSelected'" mat-raised-button (click)="setCircleSelection(0)">
-            Center of circle:
-            <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
-              <div *ngIf="circle.polygonPoints[0] !== null">
-                {{circle.getLatitude(0)}}, {{circle.getLongitude(0)}}
-              </div>
+        <button [ngClass]="(circleSelection !== 0) ? 'circleSelectionButton' : 'circleSelectionButtonSelected'"
+                mat-raised-button (click)="setCircleSelection(0)">
+          Center of circle:
+          <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
+            <div *ngIf="circle.polygonPoints.length > 0">
+              {{circle.getLatitude(0)}}, {{circle.getLongitude(0)}}
             </div>
-          </button>
+          </div>
+        </button>
 
-          <button [ngClass]="(circleSelection !== 1) ? 'circleSelectionButton' : 'circleSelectionButtonSelected'" mat-raised-button (click)="setCircleSelection(1)">
-            Circle Radius:
-            <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
-              <div *ngIf="circle.polygonPoints[1] !== null">
-                {{circle.getLatitude(1)}}
-              </div>
+        <button [ngClass]="(circleSelection !== 1) ? 'circleSelectionButton' : 'circleSelectionButtonSelected'"
+                mat-raised-button (click)="setCircleSelection(1)">
+          Circle Radius:
+          <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
+            <div *ngIf="circle.polygonPoints.length > 1">
+              {{circle.getLatitude(1)}}
             </div>
-          </button>
+          </div>
+        </button>
 
       </mat-list-item>
     </div>
@@ -55,37 +57,42 @@ Circle : show Center and Radius
  Polygon : show list of points
  -->
   <div *ngIf="this.editedZone.polygonBased">
-    <div>
+    <div style="padding-top: 20px; padding-bottom: 20px;">
       Click points on the map to create a zone
     </div>
 
-    <div>
-      <cdk-virtual-scroll-viewport itemSize="100">
-        <mat-list-item *cdkVirtualFor="let geoLocation of (displayedPoints | async); let i = index;">
-          <div>
-            <div>
-              <mat-form-field>
-                <mat-label>Latitude</mat-label>
-                <input #lat matInput (change)="modifyPoint(i, 0 ,lat.value)" [value]="geoLocation.latitude.toString()">
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Longitude</mat-label>
-                <input #long matInput (change)="modifyPoint(i, 1, long.value)"
-                       [value]="geoLocation.longitude.toString()">
-              </mat-form-field>
-            </div>
+    <mat-list style="max-height: 150px; overflow:auto;">
+      <mat-list-item *ngFor="let geoLocation of (displayedPoints | async); let i = index;">
+
+        <mat-grid-list [cols]="2" rowHeight="500px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
+            <mat-form-field>
+              <mat-label>Latitude</mat-label>
+              <input #lat matInput (change)="modifyPoint(i, 0 ,lat.value)" [value]="geoLocation.latitude.toString()">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Longitude</mat-label>
+              <input #long matInput (change)="modifyPoint(i, 1, long.value)"
+                     [value]="geoLocation.longitude.toString()">
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
             <button mat-button (click)="removePoint(i)"><i class="material-icons">clear</i></button>
-          </div>
-        </mat-list-item>
-      </cdk-virtual-scroll-viewport>
-    </div>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+
+      </mat-list-item>
+    </mat-list>
   </div>
 
-
-  <div class="centerElements">
+  <div class="creationButtons">
     <button class="zone-form-button" mat-raised-button (click)="clearEditedZone();zoneNameInput.value='';">Clear
     </button>
-    <button class="zone-form-button" mat-raised-button (click)="saveEditedZone();zoneNameInput.value='';" [disabled]="isSaveDisabled()">Save
+    <button class="zone-form-button" mat-raised-button (click)="saveEditedZone();zoneNameInput.value='';"
+            [disabled]="isSaveDisabled()">Save
     </button>
   </div>
 

@@ -72,19 +72,19 @@ export class ZoneCreationMenuComponent implements OnInit {
     if (this.editedZone.polygonBased != null) {
       if (this.editedZone.polygonBased) {
         this.editedZone.polygonPoints.push(new LatLong(latitude, longitude));
+        this.updateInformationDisplayed();
       } else {
         if (this.circleSelection == 0) {
           this.editedZone.polygonPoints[this.circleSelection] = new LatLong(latitude, longitude);
-
+          this.updateInformationDisplayed();
         } else {
-          if (this.editedZone.polygonPoints[0] !== null) {
+          if (this.editedZone.polygonPoints[0] != null) {
             let distance = this.measure(this.editedZone.polygonPoints[0].latitude, this.editedZone.polygonPoints[0].longitude, latitude, longitude);
             this.editedZone.polygonPoints[this.circleSelection] = new LatLong(distance, distance);
+            this.updateInformationDisplayed();
           }
         }
       }
-
-      this.updateInformationDisplayed();
 
     }
   }
