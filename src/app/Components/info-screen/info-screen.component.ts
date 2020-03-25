@@ -36,7 +36,6 @@ export class InfoScreenComponent implements OnInit {
         //If the sub object is not null, grab and update
 
         this.currentlySelectedDroneID = Object.values(drone).join("");
-        console.log(this.currentlySelectedDroneID);
         this.drone_id = this.currentlySelectedDroneID;
 
         // Grab the necessary data to be outputted on the info display screen

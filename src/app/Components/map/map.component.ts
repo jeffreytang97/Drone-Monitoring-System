@@ -122,7 +122,6 @@ export class MapComponent implements OnInit {
       //Attach click event to the marker.
       (function (current_marker) {
           google.maps.event.addListener(current_marker, "click", function(e) {
-              //console.log(current_marker.getTitle());
               this.map.setZoom(15);
               this.map.setCenter(current_marker.getPosition());
               that.changeSelectedDrone(current_marker.getTitle());

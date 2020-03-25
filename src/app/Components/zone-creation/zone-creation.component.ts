@@ -75,16 +75,31 @@ export class ZoneCreationComponent implements OnInit {
             polygonCoords.push({lat, lng});
           }
 
-          // Construct the polygon.
-          var zonePolygon = new google.maps.Polygon({
-            paths: polygonCoords,
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0.35,
-            map: this.map
-          });
+          if(zone.isEdited == null || zone.isEdited == false){
+            // Construct the polygon.
+            var zonePolygon = new google.maps.Polygon({
+              paths: polygonCoords,
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#FF0000',
+              fillOpacity: 0.35,
+              map: this.map
+            });
+          }
+          else{
+            // Construct the polygon.
+            var zonePolygon = new google.maps.Polygon({
+              paths: polygonCoords,
+              strokeColor: '#0042ff',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#0042ff',
+              fillOpacity: 0.35,
+              map: this.map
+            });
+          }
+
         } else {
           // Add the circle zone to the map.
 
@@ -101,21 +116,32 @@ export class ZoneCreationComponent implements OnInit {
             // For the radius, get the latitude or longitude of index 1. It is the same value
             circle_radius = zone.getLatitude(1);
           }
-          console.log("LAT: " + center_lat);
-          console.log("LNG: " + center_lng);
 
-          console.log("RADIUS: " + circle_radius);
+          if(zone.isEdited == null || zone.isEdited == false){
+            var zoneCircle = new google.maps.Circle({
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#FF0000',
+              fillOpacity: 0.35,
+              map: this.map,
+              center: {lat: center_lat, lng: center_lng},
+              radius: circle_radius,
+            });
+          }
+          else{
+            var zoneCircle = new google.maps.Circle({
+              strokeColor: '#0042ff',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#0042ff',
+              fillOpacity: 0.35,
+              map: this.map,
+              center: {lat: center_lat, lng: center_lng},
+              radius: circle_radius,
+            });
+          }
 
-          var zoneCircle = new google.maps.Circle({
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0.35,
-            map: this.map,
-            center: {lat: center_lat, lng: center_lng},
-            radius: circle_radius,
-          });
 
         }
       }

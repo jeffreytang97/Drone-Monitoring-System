@@ -8,6 +8,8 @@ export class RestrictedZone {
   public radius : number;
   public center : LatLong;
 
+  public isEdited : boolean;
+
  constructor(id: string, polygonPoints : LatLong[], polygonBased : boolean, radius:number, center : LatLong){
     this.id = id;
     this.polygonPoints = polygonPoints;
@@ -94,7 +96,7 @@ export class RestrictedZone {
   }
 
   calculateDistance(a : LatLong, b : LatLong){
-   return Math.sqrt(Math.pow(a.latitude - b.latitude, 2) + Math.pow(a.longitude + b.longitude, 2))
+   return Math.sqrt(Math.pow(a.latitude - b.latitude, 2) + Math.pow(a.longitude - b.longitude, 2))
   }
 
   getCenter(){
@@ -103,6 +105,10 @@ export class RestrictedZone {
 
   getRadius(){
    return this.radius;
+  }
+
+  setIsEdited(isEdited : boolean){
+   this.isEdited = true;
   }
 
 }

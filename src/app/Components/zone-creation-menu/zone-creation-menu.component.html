@@ -23,32 +23,30 @@
 Circle : show Center and Radius
 -->
   <div *ngIf="!this.editedZone.polygonBased">
-    <div>
+    <div style="padding: 20px;">
       Click circle on the map to create a zone
     </div>
     <div>
       <mat-list-item *ngFor="let circle of observableEditedZone | async">
-        <mat-button-toggle-group>
 
-          <mat-button-toggle (change)="setCircleSelection(0)">
+          <button [ngClass]="(circleSelection !== 0) ? 'circleSelectionButton' : 'circleSelectionButtonSelected'" mat-raised-button (click)="setCircleSelection(0)">
             Center of circle:
             <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
               <div *ngIf="circle.polygonPoints[0] !== null">
                 {{circle.getLatitude(0)}}, {{circle.getLongitude(0)}}
               </div>
             </div>
-          </mat-button-toggle>
+          </button>
 
-          <mat-button-toggle (change)="setCircleSelection(1)">
+          <button [ngClass]="(circleSelection !== 1) ? 'circleSelectionButton' : 'circleSelectionButtonSelected'" mat-raised-button (click)="setCircleSelection(1)">
             Circle Radius:
             <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
               <div *ngIf="circle.polygonPoints[1] !== null">
                 {{circle.getLatitude(1)}}
               </div>
             </div>
-          </mat-button-toggle>
+          </button>
 
-        </mat-button-toggle-group>
       </mat-list-item>
     </div>
   </div>

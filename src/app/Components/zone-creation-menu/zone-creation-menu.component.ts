@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {RestrictedZone} from "../../models/restricted-zone";
 import {Observable} from "rxjs";
 import {RestrictedZoneService} from "../../Services/restricted-zone/restricted-zone.service";
@@ -25,12 +25,15 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   circleSelection = 0;
 
+  form;
+
   constructor(private restrictedZoneService: RestrictedZoneService, private restrictedZoneCreationService: RestrictedZoneCreationService, private databaseInteractionService: DatabaseInteractionService) {
   }
 
   ngOnInit() {
 
     this.editedZone = new RestrictedZone("", [], true, 0, new LatLong(0,0));
+    this.editedZone.setIsEdited(true);
 
     this.subscribeToZones();
     this.subscribeToPoints();
@@ -118,7 +121,6 @@ export class ZoneCreationMenuComponent implements OnInit {
   }
 
   saveEditedZone() {
-    //TODO: uncomment this section when the section is 100% done
     //This opens access to writing in the DB
 
     this.editedZone.calculateCenter();
@@ -133,6 +135,7 @@ export class ZoneCreationMenuComponent implements OnInit {
   changeCurrentlySelectedMode(mode: string) {
     this.editedZone.polygonBased = mode !== "Circle";
     this.editedZone.clearZone();
+    this.updateInformationDisplayed();
   }
 
   isZoneEmpty() {
