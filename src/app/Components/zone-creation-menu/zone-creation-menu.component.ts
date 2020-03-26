@@ -32,7 +32,7 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   ngOnInit() {
 
-    this.editedZone = new RestrictedZone("", [], true, 0, new LatLong(0,0));
+    this.editedZone = new RestrictedZone("", [], true, 0, null);
     this.editedZone.setIsEdited(true);
 
     this.subscribeToZones();
@@ -79,8 +79,7 @@ export class ZoneCreationMenuComponent implements OnInit {
           this.updateInformationDisplayed();
         } else {
           if (this.editedZone.polygonPoints[0] != null) {
-            let distance = this.measure(this.editedZone.polygonPoints[0].latitude, this.editedZone.polygonPoints[0].longitude, latitude, longitude);
-            this.editedZone.polygonPoints[this.circleSelection] = new LatLong(distance, distance);
+            this.editedZone.polygonPoints[this.circleSelection] = new LatLong(latitude, longitude);
             this.updateInformationDisplayed();
           }
         }

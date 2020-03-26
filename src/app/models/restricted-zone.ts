@@ -71,8 +71,6 @@ export class RestrictedZone {
   }
 
   calculateRadius(){
-
-   if(this.polygonBased){
    let max = -1;
 
    if(this.center.longitude != null && this.center.latitude != null){
@@ -87,10 +85,6 @@ export class RestrictedZone {
 
      this.radius = max;
 
-   }
-   }
-   else {
-     this.radius = this.getLongitude(1);
    }
 
   }

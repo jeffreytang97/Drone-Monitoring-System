@@ -44,7 +44,7 @@ Circle : show Center and Radius
           Circle Radius:
           <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
             <div *ngIf="circle.polygonPoints.length > 1">
-              {{circle.getLatitude(1)}}
+              {{this.measure(circle.getLatitude(0), circle.getLongitude(0), circle.getLatitude(1), circle.getLongitude(1)) + " m"}}
             </div>
           </div>
         </button>
@@ -61,28 +61,27 @@ Circle : show Center and Radius
       Click points on the map to create a zone
     </div>
 
-    <mat-list style="max-height: 150px; overflow:auto;">
-      <mat-list-item *ngFor="let geoLocation of (displayedPoints | async); let i = index;">
+    <mat-list style="max-height: 150px; min-height: 150px; overflow:auto;">
+      <mat-list-item style="height: 110px; padding-top: 25px;" *ngFor="let geoLocation of (displayedPoints | async); let i = index;">
 
-        <mat-grid-list [cols]="2" rowHeight="500px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
+        <div>
             <mat-form-field>
               <mat-label>Latitude</mat-label>
               <input #lat matInput (change)="modifyPoint(i, 0 ,lat.value)" [value]="geoLocation.latitude.toString()">
             </mat-form-field>
+            <button mat-button (click)="removePoint(i)"><i class="material-icons">clear</i></button>
+        <div>
             <mat-form-field>
               <mat-label>Longitude</mat-label>
               <input #long matInput (change)="modifyPoint(i, 1, long.value)"
                      [value]="geoLocation.longitude.toString()">
             </mat-form-field>
-          </mat-grid-tile>
+        </div>
+        </div>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <button mat-button (click)="removePoint(i)"><i class="material-icons">clear</i></button>
-          </mat-grid-tile>
+        <mat-divider></mat-divider>
 
-        </mat-grid-list>
+
 
       </mat-list-item>
     </mat-list>
