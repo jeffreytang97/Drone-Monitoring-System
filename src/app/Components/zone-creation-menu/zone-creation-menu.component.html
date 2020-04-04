@@ -23,28 +23,32 @@
 Circle : show Center and Radius
 -->
   <div *ngIf="!this.editedZone.polygonBased">
-    <div>
+    <div style="padding-top: 20px; padding-bottom: 20px;">
       Click circle on the map to create a zone
     </div>
-    <div>
+    <div style="padding-bottom: 20px">
       <mat-list-item *ngFor="let circle of observableEditedZone | async">
-        <mat-button-toggle-group>
 
-          <mat-button-toggle (change)="setCircleSelection(0)">
-            Center of circle:
-            <div *ngIf="circle.getLatitude(0) !== null && circle.getLongitude(0) !== null">
+        <button [ngClass]="(circleSelection !== 0) ? 'circleSelectionButton' : 'circleSelectionButtonSelected'"
+                mat-raised-button (click)="setCircleSelection(0)">
+          Center of circle:
+          <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
+            <div *ngIf="circle.polygonPoints.length > 0">
               {{circle.getLatitude(0)}}, {{circle.getLongitude(0)}}
             </div>
-          </mat-button-toggle>
+          </div>
+        </button>
 
-          <mat-button-toggle (change)="setCircleSelection(1)">
-            Circle Radius:
-            <div *ngIf="circle.getLatitude(1) !== null && circle.getLongitude(1) !== null">
-              {{circle.getLatitude(1)}}
+        <button [ngClass]="(circleSelection !== 1) ? 'circleSelectionButton' : 'circleSelectionButtonSelected'"
+                mat-raised-button (click)="setCircleSelection(1)">
+          Circle Radius:
+          <div *ngIf="circle !== null && circle.polygonPoints[0] !== null">
+            <div *ngIf="circle.polygonPoints.length > 1">
+              {{this.measure(circle.getLatitude(0), circle.getLongitude(0), circle.getLatitude(1), circle.getLongitude(1)) + " m"}}
             </div>
-          </mat-button-toggle>
+          </div>
+        </button>
 
-        </mat-button-toggle-group>
       </mat-list-item>
     </div>
   </div>
@@ -53,34 +57,41 @@ Circle : show Center and Radius
  Polygon : show list of points
  -->
   <div *ngIf="this.editedZone.polygonBased">
-    <div>
+    <div style="padding-top: 20px; padding-bottom: 20px;">
       Click points on the map to create a zone
     </div>
 
-    <div>
-      <mat-list-item *ngFor="let geoLocation of (displayedPoints | async); let i = index;">
+    <mat-list style="max-height: 150px; min-height: 150px; overflow:auto;">
+      <mat-list-item style="height: 110px; padding-top: 25px;" *ngFor="let geoLocation of (displayedPoints | async); let i = index;">
+
         <div>
-          <div>
             <mat-form-field>
               <mat-label>Latitude</mat-label>
               <input #lat matInput (change)="modifyPoint(i, 0 ,lat.value)" [value]="geoLocation.latitude.toString()">
             </mat-form-field>
+            <button mat-button (click)="removePoint(i)"><i class="material-icons">clear</i></button>
+        <div>
             <mat-form-field>
               <mat-label>Longitude</mat-label>
-              <input #long matInput (change)="modifyPoint(i, 1, long.value)" [value]="geoLocation.longitude.toString()">
+              <input #long matInput (change)="modifyPoint(i, 1, long.value)"
+                     [value]="geoLocation.longitude.toString()">
             </mat-form-field>
-          </div>
-          <button mat-button (click)="removePoint(i)"><i class="material-icons">clear</i></button>
         </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+
+
       </mat-list-item>
-    </div>
+    </mat-list>
   </div>
 
-
-  <div class="centerElements">
+  <div class="creationButtons">
     <button class="zone-form-button" mat-raised-button (click)="clearEditedZone();zoneNameInput.value='';">Clear
     </button>
-    <button class="zone-form-button" mat-raised-button (click)="saveEditedZone()" [disabled]="isSaveDisabled()">Save
+    <button class="zone-form-button" mat-raised-button (click)="saveEditedZone();zoneNameInput.value='';"
+            [disabled]="isSaveDisabled()">Save
     </button>
   </div>
 

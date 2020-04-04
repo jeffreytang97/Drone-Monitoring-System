@@ -9,3 +9,26 @@
 .centerElements{
   text-align: center;
 }
+
+.creationButtons{
+  position:absolute;
+  bottom:0;
+  left:21%;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.circleSelectionButton {
+  min-width: available;
+  max-width: 300px;
+  width: 100%;
+}
+
+.circleSelectionButtonSelected {
+  min-width: available;
+  max-width: 300px;
+  width: 100%;
+  background: darkgrey;
+}
+
+

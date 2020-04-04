@@ -5,6 +5,7 @@ import {Drone} from "../../models/drone";
 import GeoPoint = firebase.firestore.GeoPoint;
 import * as firebase from 'firebase';
 import {AngularFireDatabase} from "angularfire2/database";
+import {LatLong} from "../../models/LatLong";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,7 @@ export class RestrictedZoneService {
 
         let locationSeperator = ",";
 
+        //GRABBING LATITUDE VALUES FROM DB
         // @ts-ignore
         let stringLatitudes : string[] = data.latitudes.split(locationSeperator);
         let numberLatitudes : number[] = [];
@@ -46,16 +48,28 @@ export class RestrictedZoneService {
           numberLatitudes.push(Number(entry));
         });
 
+        //GRABBING LONGITUDE VALUES FROM DB
         // @ts-ignore
         let stringLongitudes : string[] = data.longitudes.split(locationSeperator);
         let numberLongitudes : number[] = [];
 
         stringLongitudes.forEach(entry => {
-          numberLatitudes.push(Number(entry));
-        })
+          numberLongitudes.push(Number(entry));
+        });
+
+        let points = [];
+
+        for(let i = 0; i < numberLongitudes.length; i++){
+          points.push(new LatLong(numberLatitudes[i], numberLongitudes[i]));
+        }
+
+        //GRABBING CENTER VALUES FROM DB
+        // @ts-ignore
+        let center : LatLong = new LatLong(data.center.split(locationSeperator)[0] as number, data.center.split(locationSeperator)[1] as number);
 
         // @ts-ignore
-        let newZone: RestrictedZone = new RestrictedZone(data.id as number, numberLatitudes, numberLongitudes);
+        let newZone: RestrictedZone = new RestrictedZone(data.id as number, points, data.polygonBased ,data.radius as number, center);
+
         this.add(newZone);
 
       })
@@ -90,6 +104,7 @@ export class RestrictedZoneService {
 
     let latitudes = "";
     let longitudes = "";
+    let center = zone.getCenter().latitude + "," + zone.getCenter().longitude;
 
     for(let i = 0; i < zone.polygonPoints.length; i++){
       if(i != zone.polygonPoints.length-1){
@@ -102,7 +117,7 @@ export class RestrictedZoneService {
 
     }
 
-    return {id: zone.id, latitudes: latitudes, longitudes: longitudes};
+    return {id: zone.id, latitudes: latitudes, longitudes: longitudes, polygonBased:zone.polygonBased, center: center, radius: zone.getRadius()};
   }
 
 }

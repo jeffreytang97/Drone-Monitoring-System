@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {RestrictedZone} from "../../models/restricted-zone";
 import {Observable} from "rxjs";
 import {RestrictedZoneService} from "../../Services/restricted-zone/restricted-zone.service";
@@ -20,23 +20,23 @@ export class ZoneCreationMenuComponent implements OnInit {
 
   mapPoint: LatLong[];
 
-  zoneName: string;
-
   //List of points for Square and Freeform views
   displayedPoints: Observable<LatLong[]>;
 
   circleSelection = 0;
+
+  form;
 
   constructor(private restrictedZoneService: RestrictedZoneService, private restrictedZoneCreationService: RestrictedZoneCreationService, private databaseInteractionService: DatabaseInteractionService) {
   }
 
   ngOnInit() {
 
-    this.editedZone = new RestrictedZone("", [], null);
+    this.editedZone = new RestrictedZone("", [], true, 0, null);
+    this.editedZone.setIsEdited(true);
 
     this.subscribeToZones();
     this.subscribeToPoints();
-
   }
 
   subscribeToZones() {
@@ -49,6 +49,7 @@ export class ZoneCreationMenuComponent implements OnInit {
         this.zones.push(value);
       });
 
+      this.updateInformationDisplayed();
     });
   }
 
@@ -75,16 +76,15 @@ export class ZoneCreationMenuComponent implements OnInit {
       } else {
         if (this.circleSelection == 0) {
           this.editedZone.polygonPoints[this.circleSelection] = new LatLong(latitude, longitude);
+          this.updateInformationDisplayed();
         } else {
-          if (this.editedZone.polygonPoints[0] !== null && this.editedZone.polygonPoints[0].latitude !== null &&
-            this.editedZone.polygonPoints[0].longitude !== null) {
-            let distance = Math.sqrt(Math.pow(this.editedZone.polygonPoints[0].latitude - latitude, 2) + Math.pow(this.editedZone.polygonPoints[0].longitude - longitude, 2));
-            this.editedZone.polygonPoints[this.circleSelection] = new LatLong(distance, distance);
+          if (this.editedZone.polygonPoints[0] != null) {
+            this.editedZone.polygonPoints[this.circleSelection] = new LatLong(latitude, longitude);
+            this.updateInformationDisplayed();
           }
         }
-
-        this.updateInformationDisplayed();
       }
+
     }
   }
 
@@ -103,36 +103,38 @@ export class ZoneCreationMenuComponent implements OnInit {
       observer.next([this.editedZone]);
     });
 
-    if (!this.isZoneEmpty()) {
-      if (this.editedZone.polygonBased) {
-        let sentPoints = this.editedZone;
-        sentPoints.polygonPoints.push(this.editedZone.polygonPoints[0]);
-        this.restrictedZoneCreationService.setShapes([sentPoints]);
-      } else {
-        this.restrictedZoneCreationService.setShapes([this.editedZone]);
-      }
 
+    if(this.zones.length != 0){
+    //TODO: SETUP SYSTEM TO SELECT SPECIFIC ZONE TO DISPLAY OR NOT
+    let displayedZones = this.zones;
+    displayedZones.push(this.editedZone);
+
+      this.restrictedZoneCreationService.setShapes(displayedZones);
     }
 
   }
 
   clearEditedZone() {
     this.editedZone.clearZone();
-    this.zoneName = "";
     this.updateInformationDisplayed();
   }
 
   saveEditedZone() {
-    //TODO: uncomment this section when the section is 100% done
     //This opens access to writing in the DB
 
-    // this.databaseInteractionService.addNewZoneEntry(this.editedZone);
-    // this.clearEditedZone();
+    this.editedZone.calculateCenter();
+    this.editedZone.calculateRadius();
+
+    this.databaseInteractionService.addNewZoneEntry(this.editedZone);
+    this.clearEditedZone();
+
+    this.updateInformationDisplayed();
   }
 
   changeCurrentlySelectedMode(mode: string) {
     this.editedZone.polygonBased = mode !== "Circle";
     this.editedZone.clearZone();
+    this.updateInformationDisplayed();
   }
 
   isZoneEmpty() {
@@ -144,11 +146,11 @@ export class ZoneCreationMenuComponent implements OnInit {
   }
 
   isSaveDisabled() {
-    return this.isZoneEmpty() || this.zoneName === null || this.zoneName === "";
+    return this.isZoneEmpty() || this.editedZone.id === null || this.editedZone.id === "";
   }
 
   updateZoneName(zoneName: string) {
-    this.zoneName = zoneName;
+    this.editedZone.id = zoneName;
   }
 
   setCircleSelection(number: number) {
@@ -163,4 +165,17 @@ export class ZoneCreationMenuComponent implements OnInit {
     }
     this.updateInformationDisplayed();
   }
+
+  measure(lat1, lon1, lat2, lon2){  // generally used geo measurement function
+    var R = 6378.137; // Radius of earth in KM
+    var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+    var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d * 1000; // meters
+  }
+
 }
